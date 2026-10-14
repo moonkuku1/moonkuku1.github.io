@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사주풀이 · 四柱八字</title>
+<meta name="description" content="이름, 생년월일, 태어난 시간, 성별로 보는 사주팔자 풀이. 기둥별 풀이와 재물·연애·학업운을 자세히 풀어 드립니다.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'%3E%3Ccircle r='45' fill='%23a3261f'/%3E%3Cpath d='M0,-45 A45,45 0 0 1 0,45 A22.5,22.5 0 0 1 0,0 A22.5,22.5 0 0 0 0,-45Z' fill='%232c5282'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Song+Myung&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #2a2118;        /* 먹 */
+    --dim: #6b5d49;
+    --seal: #a3261f;       /* 인주 */
+    --line: #8a7550;
+    --silk: #33474a;       /* 표구 비단 */
+    --wood: #3d6b45; --fire: #a8302a; --earth: #a67c1e; --metal: #6b6f73; --water: #2c5282;
+    --gungseo: "Gungsuh", "GungsuhChe", "궁서", "궁서체", "Song Myung", "Nanum Myeongjo", serif;
+    --hanja: "Noto Serif KR", "Batang", "Nanum Myeongjo", serif;
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  body {
+    margin: 0;
+    font-family: var(--gungseo);
+    color: var(--ink);
+    line-height: 1.9;
+    background: #14100b radial-gradient(ellipse at 50% 0%, #2d2216 0%, #14100b 70%) fixed;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 840px; margin: 0 auto; padding: 28px 12px 72px; }
+
+  /* 족자 */
+  .rod {
+    height: 22px; border-radius: 11px; position: relative; z-index: 2;
+    background: linear-gradient(#7a5732, #3d2814 55%, #6b4a2b);
+    box-shadow: 0 5px 12px rgba(0,0,0,.55);
+  }
+  .rod::before, .rod::after {
+    content: ""; position: absolute; top: -4px; width: 16px; height: 30px; border-radius: 6px; background: #24160b;
+  }
+  .rod::before { left: -8px; } .rod::after { right: -8px; }
+  .scroll {
+    margin: -6px 14px; padding: 26px 22px;
+    background: var(--silk);
+    box-shadow: 0 18px 40px rgba(0,0,0,.6);
+  }
+  .paper {
+    position: relative; overflow: hidden; padding: 0 34px 56px;
+    background-color: #eadfc2;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .30 0 0 0 0 .16 .7 0 0 0 -.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9 .02' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .38 0 0 0 0 .2 .6 0 0 0 -.22'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse at 50% 30%, rgba(255,248,225,.55), rgba(180,150,100,.25) 100%);
+  }
+  .paper::before {
+    content: ""; position: absolute; inset: 10px; border: 3px double rgba(122,92,54,.55); pointer-events: none;
+  }
+  .paper > * { position: relative; z-index: 1; }
+
+  /* 상단 그림 */
+  .hero { margin: 0 -34px; line-height: 0; }
+  .hero svg { width: 100%; height: auto; display: block; }
+  header { text-align: center; padding: 20px 0 8px; }
+  .hanja-title { font-family: var(--hanja); font-weight: 700; letter-spacing: .6em; color: var(--dim); font-size: 15px; margin: 0 0 4px .6em; }
+  h1 { font-weight: 400; font-size: clamp(42px, 11vw, 68px); letter-spacing: .12em; line-height: 1.15; margin: 0; }
+  .lead { color: var(--dim); max-width: 30em; margin: 14px auto 0; font-size: 17px; }
+
+  .bagua {
+    position: absolute !important; left: 50%; top: 560px; width: 620px; max-width: 120%;
+    transform: translateX(-50%); opacity: .085; pointer-events: none; z-index: 0 !important;
+  }
+  .bagua svg { width: 100%; height: auto; display: block; }
+
+  /* 입력 */
+  form { display: grid; gap: 26px; margin-top: 36px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  label, legend { display: block; font-size: 15px; color: var(--dim); margin-bottom: 4px; padding: 0; }
+  input, select {
+    width: 100%; background: transparent; color: var(--ink);
+    border: 0; border-bottom: 2px solid var(--line); border-radius: 0;
+    padding: 8px 2px; font: inherit; font-size: 19px;
+  }
+  select option { background: #efe4c8; color: var(--ink); }
+  input:focus, select:focus { outline: none; border-bottom-color: var(--seal); }
+  input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--seal); outline-offset: 3px; }
+  fieldset { border: 0; padding: 0; margin: 0; }
+  .seg { display: flex; gap: 12px; }
+  .seg label {
+    flex: 1; margin: 0; cursor: pointer; text-align: center;
+    border: 2px solid var(--line); padding: 8px 14px; color: var(--ink); font-size: 18px;
+  }
+  .seg input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .seg label:has(input:checked) { background: var(--ink); color: #f2e8cd; border-color: var(--ink); }
+  .seg label:has(input:focus-visible) { outline: 2px solid var(--seal); outline-offset: 3px; }
+  button.go {
+    background: var(--ink); color: #f2e8cd; border: 0; padding: 15px 20px;
+    font: inherit; font-size: 20px; letter-spacing: .3em; cursor: pointer;
+    box-shadow: inset 0 0 0 3px rgba(242,232,205,.25);
+  }
+  button.go:hover { background: var(--seal); }
+  .err { color: var(--seal); min-height: 1.6em; margin: 0; font-size: 15px; }
+
+  /* 결과 */
+  #result { margin-top: 64px; display: none; }
+  #result.show { display: block; }
+  .res-head { display: flex; align-items: center; gap: 16px; }
+  .seal {
+    flex: none; width: 54px; height: 54px; display: grid; place-items: center;
+    border: 3px solid var(--seal); color: var(--seal); font-family: var(--hanja); font-weight: 900; font-size: 30px;
+    transform: rotate(-5deg); mix-blend-mode: multiply; border-radius: 4px;
+  }
+  #result h2 { font-weight: 400; font-size: 30px; margin: 0; line-height: 1.3; }
+  .sub { color: var(--dim); font-size: 15px; margin: 2px 0 28px; }
+
+  .pillars { display: grid; grid-template-columns: repeat(4, 1fr); border: 2px solid var(--ink); background: rgba(255,250,235,.35); }
+  .pillar { text-align: center; padding: 16px 2px 14px; border-left: 1px solid var(--line); }
+  .pillar:first-child { border-left: 0; }
+  .pillar.day { background: rgba(163,38,31,.08); }
+  .pillar .cap { font-size: 14px; color: var(--dim); margin-bottom: 8px; }
+  .hanja { font-family: var(--hanja); font-weight: 900; font-size: clamp(38px, 11vw, 72px); line-height: 1.1; display: block; }
+  .hangul { font-size: 13px; color: var(--dim); display: block; }
+  .god { font-size: 14px; display: block; margin-top: 2px; color: var(--ink); }
+  .pillar .sep { height: 1px; background: var(--line); margin: 8px 18% 10px; }
+  .wood { color: var(--wood); } .fire { color: var(--fire); } .earth { color: var(--earth); }
+  .metal { color: var(--metal); } .water { color: var(--water); }
+  .pillar.reveal { animation: rise .7s both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .pillar.reveal { animation: none; } }
+
+  .elements { margin: 30px 0 0; display: grid; gap: 8px; }
+  .el { display: grid; grid-template-columns: 62px 1fr 26px; align-items: center; gap: 12px; font-size: 16px; }
+  .bar { height: 9px; background: rgba(42,33,24,.12); }
+  .bar i { display: block; height: 100%; }
+  .el:nth-child(1) i { background: var(--wood); } .el:nth-child(2) i { background: var(--fire); }
+  .el:nth-child(3) i { background: var(--earth); } .el:nth-child(4) i { background: var(--metal); }
+  .el:nth-child(5) i { background: var(--water); }
+
+  .sec { margin-top: 44px; padding-top: 22px; border-top: 2px solid var(--ink); }
+  .sec h3 { font-weight: 400; font-size: 25px; margin: 0 0 6px; }
+  .sec h4 { font-weight: 400; font-size: 20px; margin: 30px 0 6px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .sec h4 small { font-size: 15px; color: var(--dim); }
+  .sec p { margin: 0 0 10px; font-size: 17px; max-width: 40em; }
+  .sec p.note { color: var(--dim); font-size: 15px; }
+  .lb { color: var(--seal); margin-right: 8px; white-space: nowrap; }
+  .tip { margin-top: 44px; padding: 18px 22px; border: 2px solid var(--seal); background: rgba(163,38,31,.06); }
+  .tip p { margin: 0 0 8px; } .tip p:last-child { margin: 0; }
+
+  footer { margin-top: 56px; text-align: center; color: var(--dim); font-size: 14px; }
+
+  @media (max-width: 560px) {
+    .paper { padding: 0 18px 44px; } .hero { margin: 0 -18px; }
+    .scroll { margin: -6px 6px; padding: 16px 12px; }
+    .row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="rod"></div>
+  <div class="scroll">
+    <div class="paper">
+
+      <!-- 일월오봉도 풍의 수묵화 + 도인 -->
+      <div class="hero">
+        <svg viewBox="0 0 720 320" role="img" aria-label="다섯 봉우리와 해와 달, 소나무 아래에서 책을 펼친 도인">
+          <defs>
+            <linearGradient id="peak" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#2b3a40"/><stop offset="1" stop-color="#4c5d60" stop-opacity=".55"/>
+            </linearGradient>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#c9b88f" stop-opacity=".55"/><stop offset="1" stop-color="#eadfc2" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <rect width="720" height="320" fill="url(#sky)"/>
+          <circle cx="170" cy="92" r="34" fill="#a3261f"/>
+          <circle cx="552" cy="92" r="34" fill="#f6efd9" stroke="#3a2f22" stroke-width="1.4"/>
+          <g fill="url(#peak)">
+            <path d="M40 250 Q125 150 210 250 Z" opacity=".75"/>
+            <path d="M510 250 Q595 145 680 250 Z" opacity=".75"/>
+            <path d="M130 250 Q232 100 334 250 Z" opacity=".9"/>
+            <path d="M386 250 Q488 100 590 250 Z" opacity=".9"/>
+            <path d="M250 255 Q360 34 470 255 Z"/>
+          </g>
+          <ellipse cx="360" cy="248" rx="300" ry="16" fill="#eadfc2" opacity=".6"/>
+          <path d="M360 120 q-6 40 -2 80" stroke="#f6efd9" stroke-width="3" fill="none" opacity=".7"/>
+          <path d="M0 262 H720 V320 H0Z" fill="#33474a" opacity=".18"/>
+          <path d="M0 296 q18 -10 36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0" stroke="#33474a" stroke-width="1.6" fill="none" opacity=".55"/>
+          <path d="M0 310 q18 -10 36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0" stroke="#33474a" stroke-width="1.6" fill="none" opacity=".4"/>
+          <!-- 소나무 (좌) -->
+          <g id="pine">
+            <path d="M62 318 C50 275 76 245 58 205 C52 185 60 168 66 150" stroke="#2a2118" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <ellipse cx="66" cy="148" rx="40" ry="10" fill="#2f4a35"/>
+            <ellipse cx="46" cy="176" rx="32" ry="8" fill="#365840"/>
+            <ellipse cx="90" cy="196" rx="34" ry="8" fill="#2f4a35"/>
+            <ellipse cx="42" cy="222" rx="28" ry="7" fill="#365840"/>
+          </g>
+          <!-- 소나무 (우) -->
+          <use href="#pine" transform="translate(720,0) scale(-1,1)"/>
+          <!-- 바위와 도인 -->
+          <path d="M240 320 Q360 252 480 320 Z" fill="#4a3b2c"/>
+          <path d="M330 292 Q334 254 360 247 Q386 254 390 292 Z" fill="#f3ecd6" stroke="#2a2118" stroke-width="1.2"/>
+          <path d="M352 262 Q360 270 368 262" stroke="#2a2118" stroke-width="1" fill="none"/>
+          <circle cx="360" cy="237" r="9" fill="#e6cda6" stroke="#2a2118" stroke-width="1"/>
+          <path d="M353 241 Q360 266 367 241 Z" fill="#f7f3e8" stroke="#2a2118" stroke-width=".8"/>
+          <ellipse cx="360" cy="230" rx="21" ry="5" fill="#1c1c1c"/>
+          <path d="M352 230 L352 215 Q360 209 368 215 L368 230 Z" fill="#262626" stroke="#000" stroke-width=".6"/>
+          <rect x="392" y="274" width="48" height="5" fill="#5a3c20"/>
+          <rect x="397" y="279" width="3" height="11" fill="#5a3c20"/>
+          <rect x="432" y="279" width="3" height="11" fill="#5a3c20"/>
+          <rect x="402" y="267" width="30" height="7" rx="3" fill="#f3ecd6" stroke="#2a2118" stroke-width=".9"/>
+          <path d="M380 266 Q392 272 402 270" stroke="#2a2118" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <rect x="652" y="270" width="34" height="34" fill="#a3261f" opacity=".9"/>
+          <text x="669" y="296" text-anchor="middle" font-size="24" font-family="Noto Serif KR, serif" font-weight="900" fill="#f2e8cd">命</text>
+        </svg>
+      </div>
+
+      <div class="bagua" id="bagua" aria-hidden="true"></div>
+
+      <header>
+        <p class="hanja-title">四柱八字</p>
+        <h1>사주풀이</h1>
+        <p class="lead">태어난 해·달·날·시로 네 개의 기둥을 세우고, 오행의 균형과 재물·연애·학업의 흐름을 차분히 풀어 드립니다.</p>
+      </header>
+
+      <form id="form" novalidate>
+        <div>
+          <label for="name">성함</label>
+          <input id="name" type="text" maxlength="20" autocomplete="off" placeholder="홍길동">
+        </div>
+        <div class="row">
+          <div>
+            <label for="birth">생년월일 (양력)</label>
+            <input id="birth" type="date" min="1900-01-01" max="2100-12-31">
+          </div>
+          <div>
+            <label for="time">태어난 시간</label>
+            <select id="time">
+              <option value="-1">모름</option>
+              <option value="0">자시 (23:30~01:29)</option>
+              <option value="2">축시 (01:30~03:29)</option>
+              <option value="4">인시 (03:30~05:29)</option>
+              <option value="6">묘시 (05:30~07:29)</option>
+              <option value="8">진시 (07:30~09:29)</option>
+              <option value="10">사시 (09:30~11:29)</option>
+              <option value="12">오시 (11:30~13:29)</option>
+              <option value="14">미시 (13:30~15:29)</option>
+              <option value="16">신시 (15:30~17:29)</option>
+              <option value="18">유시 (17:30~19:29)</option>
+              <option value="20">술시 (19:30~21:29)</option>
+              <option value="22">해시 (21:30~23:29)</option>
+            </select>
+          </div>
+        </div>
+        <fieldset>
+          <legend>성별</legend>
+          <div class="seg">
+            <label><input type="radio" name="gender" value="M" checked>남성</label>
+            <label><input type="radio" name="gender" value="F">여성</label>
+          </div>
+        </fieldset>
+        <p class="err" id="err" role="alert"></p>
+        <button class="go" type="submit">사주 보기</button>
+      </form>
+
+      <section id="result" aria-live="polite">
+        <div class="res-head">
+          <div class="seal" aria-hidden="true">命</div>
+          <div>
+            <h2 id="rTitle"></h2>
+          </div>
+        </div>
+        <p class="sub" id="rSub"></p>
+        <div class="pillars" id="pillars"></div>
+        <div class="elements" id="elements"></div>
+        <div id="sections"></div>
+        <div class="tip" id="tip"></div>
+      </section>
+
+      <footer>
+        절기를 근사 날짜로 계산한 간이 풀이입니다. 재미로 참고해 주시고, 중요한 결정의 근거로 삼지는 마세요.
+      </footer>
+    </div>
+  </div>
+  <div class="rod"></div>
+</div>
+
+<script>
+(function () {
+  // ========== 기본 데이터 ==========
+  const STEM_H = "甲乙丙丁戊己庚辛壬癸";
+  const STEM_K = ["갑","을","병","정","무","기","경","신","임","계"];
+  const BR_H = "子丑寅卯辰巳午未申酉戌亥";
+  const BR_K = ["자","축","인","묘","진","사","오","미","신","유","술","해"];
+  const STEM_EL = [0,0,1,1,2,2,3,3,4,4];            // 0 목, 1 화, 2 토, 3 금, 4 수
+  const BR_EL   = [4,2,0,0,2,1,1,2,3,3,2,4];
+  const BR_MAIN = [9,5,0,1,4,2,3,5,6,7,4,8];        // 지지 본기(천간 번호)
+  const EL_NAME = ["목(木)","화(火)","토(土)","금(金)","수(水)"];
+  const EL_SHORT = ["목","화","토","금","수"];
+  const EL_CLASS = ["wood","fire","earth","metal","water"];
+  const TERM_DAY = [6,4,6,5,6,6,7,8,8,8,8,7];       // 월별 절기 시작일(근사)
+
+  const STEM_IMG = [
+    "큰 나무(甲木)처럼 곧고 당당하며, 리더십과 자존심이 강한 기운입니다.",
+    "풀과 덩굴(乙木)처럼 부드럽지만 끈질겨서, 어떤 환경에도 적응하는 생명력이 있습니다.",
+    "하늘의 태양(丙火)처럼 밝고 솔직하며, 아낌없이 베푸는 기운입니다.",
+    "촛불과 등불(丁火)처럼 은은하고 섬세하며, 속정이 깊은 기운입니다.",
+    "큰 산(戊土)처럼 듬직하고 포용력이 있어, 쉽게 흔들리지 않는 기운입니다.",
+    "논밭(己土)처럼 만물을 품어 길러내는, 부드럽고 실속 있는 기운입니다.",
+    "바위와 강철(庚金)처럼 의리가 있고 단호하며, 추진력이 강한 기운입니다.",
+    "보석(辛金)처럼 섬세하고 예리하며, 심미안과 자존심이 뛰어난 기운입니다.",
+    "큰 강과 바다(壬水)처럼 스케일이 크고 지혜로우며, 자유로운 기운입니다.",
+    "이슬과 빗물(癸水)처럼 조용히 스며들며, 직관과 감수성이 뛰어난 기운입니다."
+  ];
+  const BR_IMG = [
+    {an:"쥐", t:"지혜와 기민함, 새로운 시작을 여는"},
+    {an:"소", t:"성실과 인내, 차곡차곡 쌓아 가는"},
+    {an:"호랑이", t:"도전과 추진력, 우두머리 기질의"},
+    {an:"토끼", t:"섬세함과 사교성, 부드러운 감각의"},
+    {an:"용", t:"야망과 변화, 큰 그릇을 지닌"},
+    {an:"뱀", t:"통찰과 집중, 겉으론 조용한 열정의"},
+    {an:"말", t:"열정과 활동성, 솔직한 표현의"},
+    {an:"양", t:"온화함과 예술적 감수성, 속으로 삼키는 인내의"},
+    {an:"원숭이", t:"재치와 임기응변, 다재다능한"},
+    {an:"닭", t:"깔끔함과 완벽주의, 뛰어난 말솜씨의"},
+    {an:"개", t:"의리와 신의, 곧은 정의감의"},
+    {an:"돼지", t:"너그러움과 순수함, 깊은 포용력의"}
+  ];
+
+  // 십성: 일간 기준 관계 (0 비겁, 1 식상, 2 재성, 3 관성, 4 인성)
+  const SS = [["비견","겁재"],["식신","상관"],["편재","정재"],["편관","정관"],["편인","정인"]];
+  const GRP = ["비겁","식상","재성","관성","인성"];
+  const SS_MEAN = {
+    "비견":"나와 같은 오행·같은 음양으로, 독립심과 자존심, 뚜렷한 주관을 뜻합니다.",
+    "겁재":"나와 같은 오행이지만 음양이 달라, 승부욕과 경쟁심, 강한 추진력을 뜻합니다.",
+    "식신":"내가 낳는 기운(같은 음양)으로, 여유와 재능, 먹고 즐기는 복과 낙천성을 뜻합니다.",
+    "상관":"내가 낳는 기운(다른 음양)으로, 날카로운 표현력과 창의성, 틀을 깨는 반골 기질을 뜻합니다.",
+    "편재":"내가 극하는 기운(같은 음양)으로, 큰돈과 사업, 활동 범위가 넓은 재물을 뜻합니다.",
+    "정재":"내가 극하는 기운(다른 음양)으로, 성실하게 모으는 안정적인 재물과 알뜰함을 뜻합니다.",
+    "편관":"나를 극하는 기운(같은 음양)으로, 강한 압박과 카리스마, 돌파력을 뜻합니다.",
+    "정관":"나를 극하는 기운(다른 음양)으로, 명예와 질서, 책임감과 바른 처신을 뜻합니다.",
+    "편인":"나를 생하는 기운(같은 음양)으로, 독창적인 사고와 직관, 특수한 재능과 학문을 뜻합니다.",
+    "정인":"나를 생하는 기운(다른 음양)으로, 학문과 어머니의 사랑, 안정과 보호를 뜻합니다."
+  };
+  const LIFE = [
+    { year:"어린 시절 형제·친구 같은 또래와 부대끼며 자립심을 일찍 길렀을 가능성이 큽니다.",
+      month:"직장과 사회에서 동료와 어깨를 나란히 하며 독립적으로 일하는 힘이 강합니다. 동업보다는 각자 책임지는 구조가 안전합니다.",
+      day:"배우자 자리에 나와 닮은 기운이 있어 친구처럼 지내는 부부가 되기 쉽습니다. 다만 주도권 다툼이 생기기 쉬우니 서로의 영역을 존중하세요.",
+      hour:"말년에는 주관이 더욱 뚜렷해지며, 자녀나 후배와도 대등한 관계를 맺습니다." },
+    { year:"어릴 때부터 표현력과 재능이 두드러져 집안에서 귀여움을 받거나 끼를 드러냈을 가능성이 있습니다.",
+      month:"말, 글, 기술, 창작처럼 재능을 펼치는 직업과 인연이 깊습니다. 가르치는 일이나 서비스·콘텐츠 분야에서 빛납니다.",
+      day:"배우자 자리에 표현과 재능의 기운이 있어 감각적이고 말이 잘 통하는 인연을 만나기 쉽습니다. 말이 앞서 다툼이 되지 않도록 주의하세요.",
+      hour:"말년에도 재능을 발휘하며 자녀 복이 있는 편입니다. 취미와 창작이 노후의 활력이 됩니다." },
+    { year:"집안이 현실적이고 경제 감각이 있는 분위기였거나, 어릴 때부터 돈과 실속을 일찍 알게 됩니다.",
+      month:"직업 영역에서 재물과 인연이 깊어 사업, 영업, 재무 같은 실속 있는 분야에서 기회가 많습니다.",
+      day:"배우자 자리에 재물의 기운이 있어 현실적이고 생활력 강한 배우자와 인연이 닿기 쉽습니다.",
+      hour:"말년의 재물운이 안정적이며 자녀가 실속 있게 자랍니다. 노후 자금을 미리 준비하면 더욱 좋습니다." },
+    { year:"원칙과 규율이 있는 집안 분위기에서 자랐거나, 일찍부터 책임감을 배웠습니다.",
+      month:"조직운이 좋아 공직, 대기업, 전문직처럼 규칙이 있는 곳에서 인정받습니다. 승진과 명예와 인연이 있습니다.",
+      day:"배우자 자리에 책임과 질서의 기운이 있어 듬직하고 성실한 인연을 만나기 쉽습니다. 서로를 너무 엄격하게 대하지 않는 것이 좋습니다.",
+      hour:"말년에 명예와 안정을 얻고 자녀가 반듯하게 성장합니다. 다만 스스로를 너무 몰아붙이지 마세요." },
+    { year:"어른들의 보살핌과 좋은 교육 환경 속에서 자랐고, 학업과 어른 복이 있습니다.",
+      month:"배움, 자격증, 문서, 연구와 인연이 깊어 공부와 전문성으로 자리를 잡습니다. 귀인의 도움도 기대할 수 있습니다.",
+      day:"배우자 자리에 보살핌의 기운이 있어 나를 이해하고 돌봐 주는 따뜻한 인연을 만나기 쉽습니다. 의존이 지나치지 않게 균형을 잡으세요.",
+      hour:"말년이 평온하며 정신적 안정과 학문, 신앙에 마음이 향합니다. 자녀와도 정서적으로 가까운 편입니다." }
+  ];
+  const POS = [
+    { key:"year",  name:"연주(年柱)", desc:"연주는 조상과 집안 환경, 태어난 배경과 1~15세 무렵의 초년운을 보여줍니다. 남에게 처음 비치는 이미지이기도 합니다." },
+    { key:"month", name:"월주(月柱)", desc:"월주는 부모와 형제, 16~30세 무렵의 청년운, 그리고 직업과 사회적 자리를 보여주는 가장 힘이 큰 기둥입니다." },
+    { key:"day",   name:"일주(日柱)", desc:"일주는 '나 자신'과 배우자 자리를 뜻합니다. 천간의 일간이 나의 본질이고, 지지의 일지는 배우자궁이자 31~45세 무렵 중년운을 보여줍니다." },
+    { key:"hour",  name:"시주(時柱)", desc:"시주는 자녀와 후배, 46세 이후의 말년운, 그리고 마음 깊이 품은 꿈과 노후를 보여줍니다." }
+  ];
+  const DM_TRAIT = [
+    "곧게 뻗어 자라는 나무처럼 성장 욕구가 강하고 계획 세우기를 좋아합니다.",
+    "불꽃처럼 열정적이고 표현력이 좋아 사람들 사이에서 눈에 띕니다.",
+    "대지처럼 묵직하고 신뢰를 주는, 중심이 잡힌 성향입니다.",
+    "쇠처럼 결단력이 있고 원칙과 맺고 끊음이 분명합니다.",
+    "물처럼 유연하고 생각이 깊으며 상황 적응력이 뛰어납니다."
+  ];
+  const ROOM_TRAIT = ["함께 성장하도록 서로 북돋아 주는","따뜻하고 열정적인","안정적이고 믿음직한","깔끔하고 분명한","다정하고 깊이 이해해 주는"];
+  const LACK_TIP = [
+    "초록 식물을 곁에 두고 산책이나 새로운 시작을 자주 해 보세요.",
+    "몸을 움직이는 운동을 하고, 사람을 만나 에너지를 나누어 보세요.",
+    "규칙적인 생활 루틴과 안정적인 식습관을 만들어 보세요.",
+    "정리정돈과 마무리하는 습관을 들이면 기운이 채워집니다.",
+    "충분한 수분과 휴식, 독서나 명상으로 마음을 가라앉혀 보세요."
+  ];
+  const EXCESS = [
+    "목이 많아 고집과 추진력이 강하지만 무리하기 쉽습니다. 일부러 쉬는 시간을 두세요.",
+    "화가 많아 열정은 크지만 성급함과 감정 기복이 올 수 있습니다. 한 박자 쉬고 말하는 습관이 좋습니다.",
+    "토가 많아 신중하고 안정적이지만 변화에 둔해질 수 있습니다. 새로운 시도를 조금씩 늘려 보세요.",
+    "금이 많아 판단이 정확하지만 날카로워 보일 수 있습니다. 부드러운 말투가 복을 부릅니다.",
+    "수가 많아 생각과 걱정이 많아질 수 있습니다. 몸을 움직이고 결론을 내리는 연습이 도움이 됩니다."
+  ];
+  const CAREER = [
+    "월주에 비겁 기운이 있어 프리랜서, 자영업, 전문 기술처럼 내 이름으로 승부하는 일이 잘 맞습니다.",
+    "월주에 식상 기운이 있어 교육, 콘텐츠, 디자인, 요리, 서비스처럼 재능을 표현하는 일이 잘 맞습니다.",
+    "월주에 재성 기운이 있어 영업, 유통, 금융, 사업처럼 돈의 흐름을 다루는 일이 잘 맞습니다.",
+    "월주에 관성 기운이 있어 공직, 대기업, 법률, 관리직처럼 조직 안에서 인정받는 일이 잘 맞습니다.",
+    "월주에 인성 기운이 있어 연구, 교육, 의료, 문서, 기획처럼 전문 지식을 쓰는 일이 잘 맞습니다."
+  ];
+  const STUDY_WAY = [
+    "하나씩 차근차근 쌓아 가는 장기 계획형 공부가 잘 맞습니다. 큰 목표를 작게 쪼개 보세요.",
+    "짧고 강하게 몰입하는 집중형 공부가 잘 맞습니다. 흥미가 식기 전에 승부를 보세요.",
+    "반복과 암기로 기초를 단단히 다지는 방식이 잘 맞습니다. 꾸준한 루틴이 최고의 무기입니다.",
+    "정리와 요약, 오답 노트처럼 체계를 세우는 공부가 잘 맞습니다. 핵심을 추리는 힘이 강점입니다.",
+    "읽고 생각하고 토론하며 원리를 이해하는 공부가 잘 맞습니다. 이해가 된 뒤의 속도가 매우 빠릅니다."
+  ];
+
+  // ========== 사주 계산 ==========
+  function jdn(y, m, d) { return Math.floor(Date.UTC(y, m - 1, d) / 86400000) + 2440588; }
+
+  function calcSaju(y, m, d, hourVal) {
+    let sy = y;
+    if (m < 2 || (m === 2 && d < 4)) sy = y - 1;         // 입춘 기준 연주
+    const yStem = ((sy - 4) % 10 + 10) % 10;
+    const yBr = ((sy - 4) % 12 + 12) % 12;
+    const n = ((m - 2 + (d >= TERM_DAY[m - 1] ? 0 : -1)) % 12 + 12) % 12;  // 절기 기준 월주(인월=0)
+    const mBr = (n + 2) % 12;
+    const mStem = ((yStem % 5) * 2 + 2 + n) % 10;
+    const idx = (jdn(y, m, d) + 49) % 60;                  // 일주 (60갑자)
+    const dStem = idx % 10, dBr = idx % 12;
+    const p = [
+      { cap:"연주(年)", s:yStem, b:yBr },
+      { cap:"월주(月)", s:mStem, b:mBr },
+      { cap:"일주(日)", s:dStem, b:dBr, day:true }
+    ];
+    if (hourVal >= 0) {
+      const hb = hourVal / 2;
+      p.push({ cap:"시주(時)", s:((dStem % 5) * 2 + hb) % 10, b:hb });
+    } else p.push({ cap:"시주(時)", s:null, b:null });
+    return p;
+  }
+
+  function tenGod(dmStem, o) {
+    const rel = (STEM_EL[o] - STEM_EL[dmStem] + 5) % 5;
+    return { g: rel, n: SS[rel][(dmStem % 2) === (o % 2) ? 0 : 1] };
+  }
+
+  // ========== 분석 ==========
+  function analyze(P, gender, hasHour) {
+    const dmS = P[2].s, dm = STEM_EL[dmS];
+    const counts = [0,0,0,0,0], gods = [];
+    const per = P.map(p => {
+      if (p.s === null) return null;
+      counts[STEM_EL[p.s]]++; counts[BR_EL[p.b]]++;
+      const st = p.day ? null : tenGod(dmS, p.s);
+      const br = tenGod(dmS, BR_MAIN[p.b]);
+      if (st) gods.push(st);
+      gods.push(br);
+      return { st, br };
+    });
+    const grp = g => gods.filter(x => x.g === g).length;
+    const nm = n => gods.filter(x => x.n === n).length;
+    const total = gods.length;
+    const strong = (grp(0) + grp(4)) >= total / 2;
+    let top = 0; counts.forEach((c, i) => { if (c > counts[top]) top = i; });
+    const lacking = counts.map((c, i) => c === 0 ? i : -1).filter(i => i >= 0);
+    const spouseG = gender === "M" ? 2 : 3;
+    return { dmS, dm, per, counts, grp, nm, total, strong, top, lacking, spouseG, hasHour,
+             chars: counts.reduce((a, b) => a + b, 0) };
+  }
+  const level = (n, total) => n === 0 ? 0 : (n >= Math.max(3, Math.round(total * 0.4)) ? 2 : 1);
+  const hj = (p) => STEM_H[p.s] + BR_H[p.b];
+  const stemTxt = s => `${STEM_H[s]}${STEM_K[s]}(${EL_NAME[STEM_EL[s]]})`;
+  const brTxt = b => `${BR_H[b]}${BR_K[b]}(${BR_IMG[b].an}·${EL_NAME[BR_EL[b]]})`;
+
+  // 기둥별 풀이
+  function pillarReading(i, P, a) {
+    const p = P[i], pos = POS[i], out = [["의미", pos.desc]];
+    if (p.s === null) {
+      out.push(["안내", "태어난 시간을 입력하지 않아 시주는 풀이하지 못했습니다. 시간을 알게 되면 자녀운과 말년운까지 더 자세히 볼 수 있습니다."]);
+      return out;
+    }
+    const { st, br } = a.per[i];
+    if (p.day) {
+      out.push(["일간", `${stemTxt(p.s)}은 나 자신을 뜻합니다. ${STEM_IMG[p.s]}`]);
+      out.push(["강약", a.strong
+        ? "사주 전체에서 나를 돕는 기운(비겁·인성)이 충분한 신강한 사주입니다. 주관이 뚜렷하고 스스로 길을 열어 가는 힘이 있으나, 고집으로 비치지 않도록 남의 말을 듣는 여유가 필요합니다."
+        : "사주 전체에서 나를 돕는 기운이 상대적으로 적은 신약한 사주입니다. 섬세하고 주변의 영향을 많이 받으며, 믿을 수 있는 사람과 함께할 때 힘이 커집니다."]);
+      out.push(["일지(배우자궁)", `${brTxt(p.b)}는 ${BR_IMG[p.b].t} 기운이며, 일간 기준 '${br.n}'에 해당합니다. ${SS_MEAN[br.n]} ${LIFE[br.g].day}`]);
+      return out;
+    }
+    out.push(["천간", `${stemTxt(p.s)}은 ${STEM_IMG[p.s]} 일간 기준 '${st.n}'에 해당합니다. ${SS_MEAN[st.n]}`]);
+    out.push(["드러나는 모습", LIFE[st.g][pos.key]]);
+    out.push(["지지", `${brTxt(p.b)}는 ${BR_IMG[p.b].t} 기운이며, 일간 기준 '${br.n}'에 해당합니다. ${SS_MEAN[br.n]}`]);
+    out.push(st.g === br.g
+      ? ["종합", `천간과 지지가 같은 ${GRP[st.g]} 계열이라, 이 기운이 겉과 속에서 함께 작용해 더욱 뚜렷하게 나타납니다.`]
+      : ["바탕", LIFE[br.g][pos.key]]);
+    return out;
+  }
+
+  // 총평
+  function overall(P, a) {
+    const o = [];
+    o.push(["일간", `${stemTxt(a.dmS)}입니다. ${STEM_IMG[a.dmS]} ${DM_TRAIT[a.dm]}`]);
+    o.push(["강약", (a.strong
+      ? "나를 돕는 기운이 넉넉한 신강 사주입니다. 스스로 계획하고 밀어붙이는 힘이 좋습니다."
+      : "나를 돕는 기운이 상대적으로 적은 신약 사주입니다. 사람과 환경의 도움을 받을 때 크게 성장합니다.")
+      + (a.hasHour ? "" : " (시주를 모르는 상태라 강약 판단은 참고용입니다.)")]);
+    const need = Math.ceil(a.chars / 2);
+    o.push(["오행", `가장 많은 기운은 ${EL_NAME[a.top]}(${a.counts[a.top]}개)입니다. ` +
+      (a.lacking.length ? `${a.lacking.map(i => EL_NAME[i]).join(", ")} 기운이 없어 이 부분을 의식적으로 채우면 균형이 좋아집니다.` : "다섯 기운이 모두 갖춰져 있어 바탕이 고른 편입니다.") +
+      (a.counts[a.top] >= need ? " " + EXCESS[a.top] : "")]);
+    const gc = [0,1,2,3,4].map(g => `${GRP[g]} ${a.grp(g)}`).join(" · ");
+    o.push(["십성 분포", `일간을 뺀 글자의 십성은 ${gc} 입니다. 많은 쪽이 삶에서 두드러지는 성향이며, 없는 쪽은 노력으로 채워 가는 영역입니다.`]);
+    return o;
+  }
+
+  // 재물운
+  function wealth(P, a, gender) {
+    const el = EL_NAME[(a.dm + 2) % 5];
+    const wl = level(a.grp(2), a.total);
+    const o = [];
+    o.push(["재물의 바탕", [
+      `사주에 재물을 뜻하는 재성(${el}) 기운이 드러나지 않습니다. 한 번에 크게 버는 방식보다 기술과 전문성을 쌓아 꾸준히 수입을 키우는 길이 맞습니다. 재성이 없다고 가난한 것이 아니라, 재물이 스스로 따라오기보다 실력으로 만들어 내는 구조라는 뜻입니다.`,
+      `재물 기운인 재성(${el})이 적당히 자리해 있어, 노력한 만큼 안정적으로 수입이 따르는 구조입니다. 무리한 투기보다 꾸준히 불려 가는 방식이 어울립니다.`,
+      `재물 기운인 재성(${el})이 풍부해 돈과 기회가 오가는 일이 많습니다. 들어오는 만큼 나가기도 쉬우니 지출을 관리하는 습관이 복을 지켜 줍니다.`][wl]]);
+    o.push(["그릇의 크기", a.strong
+      ? "일간의 힘이 든든해 재물이 와도 감당할 체력이 있습니다. 기회가 오면 과감히 잡아 실속으로 연결하는 힘이 있습니다."
+      : "일간의 힘이 상대적으로 약해, 욕심을 넓히기보다 체력과 실력을 먼저 채운 뒤 움직이는 편이 유리합니다. 큰 빚이나 보증은 특히 조심하세요."]);
+    const pj = a.nm("편재"), jj = a.nm("정재");
+    if (pj || jj) {
+      o.push(["돈 버는 방식", pj > jj
+        ? "편재가 두드러져 사업, 투자, 영업처럼 활동 범위가 넓은 재물과 인연이 있습니다. 수입의 기복이 있을 수 있으니 안정 자산을 따로 두세요."
+        : jj > pj
+        ? "정재가 두드러져 월급, 고정 수입, 꾸준한 저축으로 재물을 모으는 타입입니다. 큰 한 방보다 복리와 성실함이 힘을 발휘합니다."
+        : "편재와 정재가 함께 있어 고정 수입과 부수입을 같이 가져가기 좋은 구조입니다."]);
+    }
+    if (a.grp(1) >= 1 && a.grp(2) >= 1) {
+      o.push(["재능이 돈이 되는 구조", "식상(재능)이 재성(재물)을 만들어 주는 흐름이 있습니다. 가진 기술과 표현력을 상품으로 만들면 수입이 커집니다."]);
+    }
+    if (a.grp(0) >= 3 && a.grp(2) >= 1) {
+      o.push(["주의할 점", "비겁이 많아 재물을 두고 경쟁자가 생기거나, 주변 사람에게 나눠 주느라 새기 쉽습니다. 동업과 돈거래는 문서로 분명히 하세요."]);
+    }
+    if (P[1].s !== null) o.push(["직업의 방향", CAREER[a.per[1].br.g]]);
+    if (a.grp(2) === 0) o.push(["보강 방법", `재물 기운을 채우려면 ${LACK_TIP[(a.dm + 2) % 5]}`]);
+    return o;
+  }
+
+  // 연애운
+  function love(P, a, gender) {
+    const g = a.spouseG, el = EL_NAME[g === 2 ? (a.dm + 2) % 5 : (a.dm + 3) % 5];
+    const sl = level(a.grp(g), a.total);
+    const o = [];
+    o.push(["인연의 바탕", [
+      `인연을 뜻하는 ${GRP[g]}(${el}) 기운이 겉으로 드러나지 않아, 천천히 깊어지는 인연에 가깝습니다. 먼저 다가가는 연습과 마음을 표현하는 용기가 인연을 부릅니다.`,
+      `인연의 기운인 ${GRP[g]}(${el})이 고르게 있어, 자연스러운 만남 속에서 관계가 깊어집니다. 억지로 만들기보다 익숙한 자리에서 인연이 이어집니다.`,
+      `인연의 기운인 ${GRP[g]}(${el})이 많아 이성의 관심을 받기 쉽습니다. 선택지가 많은 만큼 마음이 흔들리지 않도록 중심을 잡는 것이 중요합니다.`][sl]]);
+    if (gender === "M") {
+      const pj = a.nm("편재"), jj = a.nm("정재");
+      if (pj || jj) o.push(["인연의 결", jj >= pj
+        ? "정재의 기운이 있어 한 사람에게 성실하고 안정적인 연애를 이어 가는 편입니다. 결혼 후에도 가정을 잘 꾸립니다."
+        : "편재의 기운이 있어 활동적이고 다양한 사람을 만나는 편입니다. 자유로운 만큼 한 사람에게 마음을 정하는 시간이 필요합니다."]);
+      if (a.grp(0) >= 3) o.push(["주의할 점", "비겁이 많아 연애에서 경쟁자가 생기거나, 친구와 주변 시선 때문에 갈등이 생길 수 있습니다. 연인과 둘만의 시간을 지키세요."]);
+    } else {
+      const pg = a.nm("편관"), jg = a.nm("정관");
+      if (pg || jg) o.push(["인연의 결", jg >= pg
+        ? "정관의 기운이 있어 반듯하고 책임감 있는 상대와 안정적인 관계를 맺는 편입니다."
+        : "편관의 기운이 있어 카리스마 있고 강렬한 상대에게 끌리는 편입니다. 밀고 당기는 관계에 지치지 않도록 마음의 기준을 세우세요."]);
+      if (a.grp(1) >= 3) o.push(["주의할 점", "식상이 강해 표현이 직설적이거나 날카로워질 수 있습니다. 같은 말도 부드럽게 전하면 인연을 오래 지킬 수 있습니다."]);
+    }
+    if (P[2].b !== null) {
+      o.push(["배우자 자리", `일지의 오행이 ${EL_NAME[BR_EL[P[2].b]]}이라, ${ROOM_TRAIT[BR_EL[P[2].b]]} 관계를 편안하게 느끼는 경향이 있습니다. ${LIFE[a.per[2].br.g].day}`]);
+    }
+    o.push(["마무리", "사주는 타고난 성향의 지도일 뿐, 관계를 가꾸는 것은 결국 대화와 배려입니다. 상대의 다른 점을 인정하는 마음이 가장 좋은 보완책입니다."]);
+    return o;
+  }
+
+  // 학업운
+  function study(P, a) {
+    const el = EL_NAME[(a.dm + 4) % 5];
+    const pl = level(a.grp(4), a.total);
+    const o = [];
+    o.push(["학문의 바탕", [
+      `배움을 돕는 인성(${el}) 기운이 약해, 책상 앞 공부보다 직접 해 보며 익히는 방식이 효율적입니다. 이론만 붙들기보다 실습과 경험으로 이해를 넓히세요.`,
+      `배움의 기운인 인성(${el})이 적당해, 꾸준히 이어가면 성과가 납니다. 한번 길을 잡으면 흔들리지 않고 가는 힘이 있습니다.`,
+      `배움의 기운인 인성(${el})이 풍부해 이해력과 습득력이 좋습니다. 다만 생각이 많아 실행이 늦어지지 않게 주의하세요.`][pl]]);
+    const early = [0,1].some(i => a.per[i] && ((a.per[i].st && a.per[i].st.g === 4) || a.per[i].br.g === 4));
+    if (early) o.push(["초년 학업운", "연주나 월주에 인성이 있어 어린 시절과 청년기에 학업운과 어른 복이 따르는 편입니다. 좋은 스승과 환경을 만날 가능성이 큽니다."]);
+    o.push(["표현과 응용", a.grp(1) >= 3
+      ? "식상이 강해 발표, 글쓰기, 창작처럼 내 것으로 풀어내는 학습에 특히 강합니다. 배운 것을 남에게 설명해 보면 실력이 두 배로 늡니다."
+      : "정해진 계획표를 세우고 작은 목표를 하나씩 끝내는 방식이 집중력을 높여 줍니다."]);
+    o.push(["공부 스타일", STUDY_WAY[a.dm]]);
+    o.push(["학습 환경", a.strong
+      ? "일간이 강해 스스로 계획하고 밀어붙이는 자기주도 학습이 잘 맞습니다."
+      : "일간이 약해 혼자보다 스터디 그룹이나 멘토와 함께할 때 효율이 오릅니다."]);
+    if (a.grp(3) >= 3) o.push(["주의할 점", "관성이 강해 시험과 평가에 대한 압박을 크게 느끼기 쉽습니다. 결과보다 과정에 집중하면 실력이 안정됩니다."]);
+    return o;
+  }
+
+  // ========== 화면 ==========
+  const $ = id => document.getElementById(id);
+  const form = $("form");
+  const esc = s => { const d = document.createElement("div"); d.textContent = s; return d.innerHTML; };
+  const paras = arr => arr.map(([l, t]) => `<p><span class="lb">${esc(l)}</span>${esc(t)}</p>`).join("");
+
+  // 팔괘 + 태극 워터마크
+  (function buildBagua() {
+    const T = [[1,1,1],[0,1,1],[1,0,1],[0,0,1],[1,1,0],[0,1,0],[1,0,0],[0,0,0]];
+    let s = `<svg viewBox="-150 -150 300 300"><g fill="#3a2c1c">`;
+    T.forEach((t, i) => {
+      s += `<g transform="rotate(${i * 45}) translate(0,-118)">`;
+      t.forEach((v, k) => {
+        const y = k * 11;
+        s += v ? `<rect x="-18" y="${y}" width="36" height="7"/>`
+               : `<rect x="-18" y="${y}" width="15" height="7"/><rect x="3" y="${y}" width="15" height="7"/>`;
+      });
+      s += `</g>`;
+    });
+    s += `</g><circle r="86" fill="none" stroke="#3a2c1c" stroke-width="2"/>
+      <circle r="52" fill="#a3261f"/><path d="M0,-52 A52,52 0 0 1 0,52 A26,26 0 0 1 0,0 A26,26 0 0 0 0,-52Z" fill="#2c5282"/>
+      <circle cy="-26" r="6.5" fill="#2c5282"/><circle cy="26" r="6.5" fill="#a3261f"/></svg>`;
+    $("bagua").innerHTML = s;
+  })();
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const name = $("name").value.trim(), birth = $("birth").value, err = $("err");
+    err.textContent = "";
+    if (!name) { err.textContent = "성함을 입력해 주세요."; $("name").focus(); return; }
+    if (!birth) { err.textContent = "생년월일을 선택해 주세요."; $("birth").focus(); return; }
+
+    const [y, m, d] = birth.split("-").map(Number);
+    const hv = parseInt($("time").value, 10);
+    const gender = form.elements.gender.value;
+    const P = calcSaju(y, m, d, hv);
+    const a = analyze(P, gender, hv >= 0);
+
+    $("rTitle").textContent = name + " 님의 사주팔자";
+    $("rSub").textContent = `${y}년 ${m}월 ${d}일 · ${gender === "M" ? "남성" : "여성"} · ${hv < 0 ? "태어난 시간 모름" : $("time").selectedOptions[0].textContent}`;
+
+    // 네 기둥 (시·일·월·연 순)
+    $("pillars").innerHTML = P.map((p, i) => ({ p, i })).reverse().map(({ p, i }, k) => {
+      const per = a.per[i];
+      const cell = (hanja, kor, el, god) => `<span class="hanja ${EL_CLASS[el]}">${hanja}</span><span class="hangul">${kor} · ${EL_SHORT[el]}</span><span class="god">${god}</span>`;
+      const empty = `<span class="hanja" style="color:#b8a77f">?</span><span class="hangul">&nbsp;</span><span class="god">&nbsp;</span>`;
+      const top = p.s === null ? empty : cell(STEM_H[p.s], STEM_K[p.s], STEM_EL[p.s], p.day ? "일간(나)" : per.st.n);
+      const bot = p.b === null ? empty : cell(BR_H[p.b], BR_K[p.b], BR_EL[p.b], per.br.n);
+      return `<div class="pillar reveal${p.day ? " day" : ""}" style="animation-delay:${k * 0.13}s"><div class="cap">${p.cap}</div>${top}<div class="sep"></div>${bot}</div>`;
+    }).join("");
+
+    const max = Math.max(...a.counts, 1);
+    $("elements").innerHTML = a.counts.map((c, i) =>
+      `<div class="el"><span class="${EL_CLASS[i]}">${EL_NAME[i]}</span><div class="bar"><i style="width:${c / max * 100}%"></i></div><span>${c}</span></div>`).join("");
+
+    // 섹션 조립
+    let html = `<div class="sec"><h3>사주 총평</h3>${paras(overall(P, a))}</div>`;
+    html += `<div class="sec"><h3>기둥별 풀이</h3>`;
+    P.forEach((p, i) => {
+      const title = p.s === null ? POS[i].name : `${POS[i].name} <small>${hj(p)} · ${STEM_K[p.s]}${BR_K[p.b]}</small>`;
+      html += `<h4>${title}</h4>${paras(pillarReading(i, P, a))}`;
+    });
+    html += `</div>`;
+    html += `<div class="sec"><h3>재물운</h3>${paras(wealth(P, a, gender))}</div>`;
+    html += `<div class="sec"><h3>연애운</h3>${paras(love(P, a, gender))}</div>`;
+    html += `<div class="sec"><h3>학업운</h3>${paras(study(P, a))}</div>`;
+    $("sections").innerHTML = html;
+
+    $("tip").innerHTML = a.lacking.length
+      ? a.lacking.map(i => `<p><span class="lb">보완 · ${EL_NAME[i]}</span>${esc(LACK_TIP[i])}</p>`).join("")
+      : `<p><span class="lb">보완</span>기운이 고르게 있는 편이니, 가장 강한 ${esc(EL_NAME[a.top])}이 지나치지 않도록 균형을 유지해 보세요.</p>`;
+
+    const r = $("result");
+    r.classList.add("show");
+    r.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  });
+})();
+</script>
+</body>
+</html>
