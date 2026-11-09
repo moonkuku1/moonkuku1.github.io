@@ -191,20 +191,58 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:0}
 /* ══════════════════════════════
    카테고리 + 항목 카드 (핵심)
 ══════════════════════════════ */
-/* 카테고리 필터 탭 */
-.cat-filter{
-  display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;
+/* 카테고리별 블록 (홈) */
+.cat-block{margin-bottom:56px}
+.cat-block:last-child{margin-bottom:0}
+.cat-block-head{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
+  margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--line);
 }
-.cf-tab{
-  padding:8px 20px;border-radius:99px;font-size:14px;font-weight:500;
-  border:1px solid var(--line);background:transparent;
-  color:var(--txt2);cursor:pointer;transition:all .15s;white-space:nowrap;
+.cat-block-title{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--txt)}
+.cat-block-sub{font-size:13px;color:var(--txt2);margin-top:2px}
+.cat-more{
+  flex-shrink:0;font-size:13px;font-weight:600;color:var(--gold);
+  background:none;border:1px solid var(--line2);border-radius:99px;
+  padding:6px 14px;cursor:pointer;transition:background .15s;font-family:var(--sans);
 }
-.cf-tab:hover{border-color:var(--line2);color:var(--txt)}
-.cf-tab.active{
-  background:var(--gold);border-color:var(--gold);
-  color:#1a1208;font-weight:700;
+.cat-more:hover{background:rgba(201,151,58,.12)}
+.cat-block .item-cat-badge,.cat-pg .item-cat-badge{display:none}
+
+/* 슬라이더 (인기 풀이) */
+.sec-head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.sl-btns{display:flex;gap:8px;margin-bottom:32px;flex-shrink:0}
+.sl-btn{
+  width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);
+  background:var(--bg2);color:var(--gold);font-size:22px;line-height:1;
+  cursor:pointer;transition:background .15s;padding-bottom:3px;
 }
+.sl-btn:hover{background:var(--bg3)}
+
+/* 카테고리 화면 / 전체 화면 */
+.cat-pg{background:var(--bg1);min-height:100vh}
+.cat-pg-in{max-width:1200px;margin:0 auto;padding:40px 24px 100px}
+.cat-pg-head{margin-bottom:28px}
+.cat-pg-head h2{font-family:var(--serif);font-size:clamp(24px,4vw,34px);font-weight:900;color:var(--txt);margin-bottom:6px}
+.cat-pg-head p{font-size:14px;color:var(--txt2)}
+
+/* 전체 항목 (글로만) */
+.all-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px 48px}
+.all-cat h3{
+  font-family:var(--serif);font-size:18px;font-weight:700;color:var(--gold);
+  margin-bottom:6px;padding-bottom:8px;border-bottom:1px solid var(--line2);
+}
+.all-list{list-style:none}
+.all-item{
+  display:flex;align-items:baseline;gap:12px;width:100%;text-align:left;
+  background:none;border:none;border-bottom:1px solid var(--line);
+  padding:12px 4px;cursor:pointer;color:var(--txt);font-family:var(--sans);
+  transition:background .15s;
+}
+.all-item:hover{background:var(--bg2)}
+.all-name{font-weight:600;font-size:15px;flex-shrink:0}
+.all-desc{font-size:12px;color:var(--txt2);flex:1}
+.all-cnt{font-size:11px;color:var(--txt3);flex-shrink:0}
+@media(max-width:760px){.all-grid{grid-template-columns:1fr}}
 
 /* 항목 카드 그리드 */
 .item-grid{
@@ -258,11 +296,13 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:0}
 @media(max-width:400px){.item-grid{grid-template-columns:1fr}}
 
 /* ══ BEST 10 카드 ══ */
-.best-scroll{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:16px;
+.best-track{
+  display:flex;gap:16px;overflow-x:auto;
+  scroll-snap-type:x mandatory;scrollbar-width:none;
+  padding-bottom:6px;
 }
+.best-track::-webkit-scrollbar{display:none}
+.best-track .best-card{flex:0 0 220px;scroll-snap-align:start}
 .best-card{
   background:var(--bg2);border:1px solid var(--line);
   border-radius:var(--r);overflow:hidden;cursor:pointer;
@@ -287,8 +327,7 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:0}
 .best-title{font-family:var(--serif);font-size:14px;font-weight:700;
   color:var(--txt);line-height:1.4}
 
-@media(max-width:1100px){.best-scroll{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:800px){.best-scroll{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.best-track .best-card{flex-basis:180px}}
 
 /* ══ 후기 ══ */
 .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -550,7 +589,7 @@ footer{
   </div>
   <!-- 카테고리 탭 (홈) -->
   <div class="gnb-cats" id="gnbCats">
-    <button class="gnb-tab active" data-cat="전체">전체</button>
+    <button class="gnb-tab" data-cat="전체">전체</button>
     <button class="gnb-tab" data-cat="연애·재회">연애·재회</button>
     <button class="gnb-tab" data-cat="돈·일·시험">돈·일·시험</button>
     <button class="gnb-tab" data-cat="올해 운세">올해 운세</button>
@@ -634,29 +673,24 @@ footer{
 <section class="sec" style="background:var(--bg0)">
   <div class="sec-in">
     <div class="sec-ey">인기 풀이</div>
-    <h2 class="sec-h">지금 가장 많이 보는 풀이 BEST 10</h2>
-    <p class="sec-sub">많은 분들이 먼저 물어본 질문들이에요.</p>
-    <div class="best-scroll" id="bestGrid"></div>
+    <div class="sec-head-row">
+      <div>
+        <h2 class="sec-h">지금 가장 많이 보는 풀이 BEST 10</h2>
+        <p class="sec-sub">많은 분들이 먼저 물어본 질문들이에요. 옆으로 넘겨 보세요.</p>
+      </div>
+      <div class="sl-btns">
+        <button class="sl-btn" id="bestPrev" aria-label="이전 풀이 보기">‹</button>
+        <button class="sl-btn" id="bestNext" aria-label="다음 풀이 보기">›</button>
+      </div>
+    </div>
+    <div class="best-track" id="bestGrid"></div>
   </div>
 </section>
 
 <hr class="sep">
 
-<!-- ══ 카테고리 + 항목 카드 ══ -->
-<section class="sec" id="catSec">
-  <div class="sec-in">
-    <div class="sec-ey">카테고리</div>
-    <h2 class="sec-h">어떤 것이 궁금하세요?</h2>
-    <p class="sec-sub">카테고리를 고르면 관련 항목 카드가 나타납니다. 카드를 클릭하면 질문 목록으로 이동해요.</p>
-    <div class="cat-filter" id="catFilter"></div>
-    <div class="item-grid" id="itemGrid"></div>
-  </div>
-</section>
-
-<hr class="sep">
-
-<!-- ══ 후기 ══ -->
-<section class="sec" style="background:var(--bg0)">
+<!-- ══ 후기 (인기 풀이 바로 아래) ══ -->
+<section class="sec">
   <div class="sec-in">
     <div class="sec-ey">이용 후기</div>
     <h2 class="sec-h">먼저 본 분들의 이야기</h2>
@@ -666,6 +700,18 @@ footer{
       <div class="rev-card"><div class="rev-stars">★★★★★</div><p class="rev-txt">"300원이라 부담 없이 시작했는데 내용이 정말 자세했어요. 나쁜 것도 솔직하게 알려줘서 오히려 더 믿음이 갔어요."</p><div class="rev-meta">86년생 남성 · 이직</div></div>
       <div class="rev-card"><div class="rev-stars">★★★★☆</div><p class="rev-txt">"명식표를 같이 보여줘서 왜 이런 결론이 나왔는지 이해됐어요. 그냥 운세 보는 것보다 납득이 되니까 더 좋더라고요."</p><div class="rev-meta">98년생 · 궁합</div></div>
     </div>
+  </div>
+</section>
+
+<hr class="sep">
+
+<!-- ══ 카테고리별 항목 ══ -->
+<section class="sec" id="catSec" style="background:var(--bg0)">
+  <div class="sec-in">
+    <div class="sec-ey">카테고리</div>
+    <h2 class="sec-h">어떤 것이 궁금하세요?</h2>
+    <p class="sec-sub">항목 카드를 누르면 질문 목록으로 이동해요. 카테고리 오른쪽 위 '전체보기'로 한 번에 볼 수도 있어요.</p>
+    <div id="catBlocks"></div>
   </div>
 </section>
 
@@ -819,6 +865,32 @@ footer{
         </div>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 카테고리 화면 (탭/전체보기 클릭 시 항목이 바로 표시) ══════ -->
+<div class="screen" id="screenCat">
+  <div class="cat-pg">
+    <div class="cat-pg-in">
+      <div class="cat-pg-head">
+        <h2 id="catPgTitle"></h2>
+        <p id="catPgDesc"></p>
+      </div>
+      <div class="item-grid" id="catPgGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 전체 항목 화면 (글로만) ══════ -->
+<div class="screen" id="screenAll">
+  <div class="cat-pg">
+    <div class="cat-pg-in">
+      <div class="cat-pg-head">
+        <h2>전체 항목</h2>
+        <p>모든 카테고리의 항목을 글로 모아 봤어요. 항목을 누르면 질문 목록으로 이동해요.</p>
+      </div>
+      <div class="all-grid" id="allGrid"></div>
     </div>
   </div>
 </div>
@@ -1829,7 +1901,7 @@ const fmt=n=>n.toLocaleString('ko-KR');
 /* ── BEST 렌더 ── */
 function renderBest(){
   $('bestGrid').innerHTML = BEST.map(b=>`
-    <div class="best-card" onclick="void(0)">
+    <div class="best-card" data-best-item="${esc(b.item)}" role="button" tabindex="0">
       <div class="best-img">
         <div class="best-num${b.rank<=3?' gold':''}">BEST ${b.rank}</div>
         ${makeBestSVG(b)}
@@ -1841,67 +1913,150 @@ function renderBest(){
     </div>`).join('');
 }
 
-/* ── 항목 그리드 렌더 ── */
-function renderItems(cat){
-  const items = cat==="전체"
-    ? DATA.flatMap(d=>d.items)
-    : (DATA.find(d=>d.cat===cat)||{items:[]}).items;
-  $('itemGrid').innerHTML = items.map(it=>`
-    <div class="item-card" data-item="${esc(it.id)}" data-cat="${esc(DATA.find(d=>d.items.includes(it))?.cat||'')}">
+/* ── 카테고리 설명 ── */
+const CAT_DESC={
+  "연애·재회":"지금 이 사람부터 새 인연, 재회, 연애 패턴, 궁합까지",
+  "돈·일·시험":"재물 그릇, 커리어, 이직, 시험, 창업의 흐름",
+  "올해 운세":"2027년 총운과 이번 달, 연애·재물·일·건강 흐름",
+  "나라는 사람":"타고난 본질, 인생 흐름, 신살, 심리, 오행과 체질",
+  "가족·집":"결혼, 자녀, 가족 관계, 이사, 인복과 귀인"
+};
+
+/* ── 항목 카드 HTML ── */
+function itemCardHTML(it, catName){
+  return `
+    <div class="item-card" data-item="${esc(it.id)}" role="button" tabindex="0">
       <div class="item-img">${makeItemSVG(it.color, it.name)}</div>
       <div class="item-body">
-        <div class="item-cat-badge">${esc(DATA.find(d=>d.items.includes(it))?.cat||'')}</div>
+        <div class="item-cat-badge">${esc(catName)}</div>
         <div class="item-name">${esc(it.name)}</div>
         <div class="item-desc">${esc(it.desc)}</div>
         <span class="item-cnt">${it.questions.length}문항</span>
       </div>
-    </div>`).join('');
-  document.querySelectorAll('.item-card').forEach(card=>{
-    card.addEventListener('click',()=>{
-      const itemId=card.dataset.item;
-      const foundCat=DATA.find(d=>d.items.find(i=>i.id===itemId));
-      const foundItem=foundCat?.items.find(i=>i.id===itemId);
-      if(foundItem) goQ(foundCat.cat, foundItem);
-    });
+    </div>`;
+}
+
+/* 항목 id로 질문 목록 페이지 열기 */
+function openItemById(itemId){
+  const foundCat=DATA.find(d=>d.items.find(i=>i.id===itemId));
+  const foundItem=foundCat?.items.find(i=>i.id===itemId);
+  if(foundItem) goQ(foundCat.cat, foundItem);
+}
+
+/* 컨테이너 안의 카드 클릭을 한 번에 처리 (이벤트 위임) */
+function bindItemClicks(container){
+  container.addEventListener('click',e=>{
+    const card=e.target.closest('.item-card');
+    if(card) openItemById(card.dataset.item);
+  });
+  container.addEventListener('keydown',e=>{
+    if(e.key!=='Enter'&&e.key!==' ') return;
+    const card=e.target.closest('.item-card');
+    if(card){e.preventDefault();openItemById(card.dataset.item);}
   });
 }
 
-/* ── 카테고리 필터 ── */
-function renderCatFilter(){
-  const cats=["전체",...DATA.map(d=>d.cat)];
-  $('catFilter').innerHTML=cats.map(c=>`
-    <button class="cf-tab${c===curCat?' active':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
-  document.querySelectorAll('.cf-tab').forEach(b=>{
-    b.addEventListener('click',()=>{
-      curCat=b.dataset.cat;
-      document.querySelectorAll('.cf-tab').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
-      document.querySelectorAll('.gnb-tab').forEach(x=>{
-        x.classList.toggle('active', x.dataset.cat===curCat||(!DATA.map(d=>d.cat).includes(x.dataset.cat)&&curCat==="전체"&&x.dataset.cat==="전체"));
-      });
-      renderItems(curCat);
-    });
+/* ── 홈: 카테고리별 블록 (각 블록 우측 상단에 전체보기) ── */
+function renderCatBlocks(){
+  $('catBlocks').innerHTML=DATA.map(d=>`
+    <div class="cat-block" data-cat="${esc(d.cat)}">
+      <div class="cat-block-head">
+        <div>
+          <div class="cat-block-title">${esc(d.cat)}</div>
+          <div class="cat-block-sub">${esc(CAT_DESC[d.cat]||'')}</div>
+        </div>
+        <button class="cat-more" data-cat="${esc(d.cat)}">전체보기 ›</button>
+      </div>
+      <div class="item-grid">${d.items.map(it=>itemCardHTML(it,d.cat)).join('')}</div>
+    </div>`).join('');
+  bindItemClicks($('catBlocks'));
+  $('catBlocks').addEventListener('click',e=>{
+    const more=e.target.closest('.cat-more');
+    if(more) goCat(more.dataset.cat);
   });
+}
+
+/* ── 카테고리 화면: 항목이 바로 표시됨 ── */
+function renderCatPage(cat){
+  const d=DATA.find(x=>x.cat===cat);
+  if(!d) return;
+  $('catPgTitle').textContent=cat;
+  $('catPgDesc').textContent=CAT_DESC[cat]||'';
+  $('catPgGrid').innerHTML=d.items.map(it=>itemCardHTML(it,cat)).join('');
+}
+
+/* ── 전체 화면: 모든 항목을 글로만 ── */
+function renderAllPage(){
+  $('allGrid').innerHTML=DATA.map(d=>`
+    <div class="all-cat">
+      <h3>${esc(d.cat)}</h3>
+      <ul class="all-list">
+        ${d.items.map(it=>`
+          <li><button class="all-item" data-item="${esc(it.id)}">
+            <span class="all-name">${esc(it.name)}</span>
+            <span class="all-desc">${esc(it.desc)}</span>
+            <span class="all-cnt">${it.questions.length}문항</span>
+          </button></li>`).join('')}
+      </ul>
+    </div>`).join('');
+}
+
+/* ── 인기 풀이 슬라이더 ── */
+function initBestSlider(){
+  const track=$('bestGrid');
+  const step=()=>Math.max(220,track.clientWidth*0.8);
+  const smooth=window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
+  $('bestPrev').addEventListener('click',()=>track.scrollBy({left:-step(),behavior:smooth}));
+  $('bestNext').addEventListener('click',()=>track.scrollBy({left:step(),behavior:smooth}));
 }
 
 /* ── 화면 전환 ── */
+/* 화면 하나만 보이게 하는 공통 함수 */
+const SCREENS=['screenHome','screenQ','screenFree','screenCat','screenAll'];
+function showScreen(id){
+  SCREENS.forEach(s=>$(s).classList.toggle('active',s===id));
+}
+function setTab(cat){
+  document.querySelectorAll('.gnb-tab').forEach(x=>x.classList.toggle('active',x.dataset.cat===cat));
+}
+
 function goHome(){
-  $('screenHome').classList.add('active');
-  $('screenQ').classList.remove('active');
-  $('screenFree').classList.remove('active');
+  showScreen('screenHome');
   $('crumb').style.display='none';
   $('logoBtn').style.display='';
   $('gnbCats').style.display='';
-  document.querySelectorAll('.gnb-tab').forEach(x=>x.classList.toggle('active',x.dataset.cat==='전체'));
+  setTab(null);
   window.scrollTo({top:0,behavior:'smooth'});
+  updateCart();
+}
+
+/* 카테고리 화면: 지연 없이 항목이 바로 표시됨 */
+function goCat(cat){
+  curCat=cat;
+  renderCatPage(cat);
+  showScreen('screenCat');
+  $('crumb').style.display='none';
+  $('logoBtn').style.display='';
+  $('gnbCats').style.display='';
+  setTab(cat);
+  window.scrollTo({top:0,behavior:'auto'});
+  updateCart();
+}
+
+/* 전체 화면: 모든 항목을 글로만 */
+function goAll(){
+  showScreen('screenAll');
+  $('crumb').style.display='none';
+  $('logoBtn').style.display='';
+  $('gnbCats').style.display='';
+  setTab('전체');
+  window.scrollTo({top:0,behavior:'auto'});
   updateCart();
 }
 
 function goQ(cat, item){
   curItem=item;
-  $('screenHome').classList.remove('active');
-  $('screenQ').classList.add('active');
-  $('screenFree').classList.remove('active');
+  showScreen('screenQ');
   $('logoBtn').style.display='none';
   $('crumb').style.display='flex';
   $('crumbCat').textContent=`${cat} · ${item.name}`;
@@ -1976,18 +2131,27 @@ $('cClr').addEventListener('click',()=>{
 /* ── GNB 탭 ── */
 document.querySelectorAll('.gnb-tab').forEach(b=>{
   b.addEventListener('click',()=>{
-    document.querySelectorAll('.gnb-tab').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
     const cat=b.dataset.cat;
-    if(cat==="무료"){goFree();return;}
-    curCat=cat;
-    goHome();
-    setTimeout(()=>{
-      document.querySelectorAll('.cf-tab').forEach(x=>x.classList.toggle('active',x.dataset.cat===cat));
-      renderItems(cat);
-      $('catSec').scrollIntoView({behavior:'smooth'});
-    },100);
+    if(cat==='무료') goFree();
+    else if(cat==='전체') goAll();
+    else goCat(cat);
   });
+});
+
+/* 전체(글로만) 화면의 항목 클릭 */
+$('allGrid').addEventListener('click',e=>{
+  const row=e.target.closest('.all-item');
+  if(row) openItemById(row.dataset.item);
+});
+
+/* 인기 풀이 카드 클릭 → 해당 항목의 질문 목록 */
+$('bestGrid').addEventListener('click',e=>{
+  const card=e.target.closest('.best-card');
+  if(!card) return;
+  const name=card.dataset.bestItem;
+  const d=DATA.find(x=>x.items.some(i=>i.name===name));
+  const it=d&&d.items.find(i=>i.name===name);
+  if(it) goQ(d.cat,it);
 });
 
 /* ── 로고·홈 버튼 ── */
@@ -1999,9 +2163,7 @@ $('freeBtn').addEventListener('click',goFree);
 
 /* ── 무료 운세 화면 ── */
 function goFree(){
-  $('screenHome').classList.remove('active');
-  $('screenQ').classList.remove('active');
-  $('screenFree').classList.add('active');
+  showScreen('screenFree');
   $('logoBtn').style.display='none';
   $('crumb').style.display='flex';
   $('crumbCat').textContent='무료 운세';
@@ -2146,8 +2308,10 @@ scrollUpBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth
 
 /* ── 초기 렌더 ── */
 renderBest();
-renderCatFilter();
-renderItems("전체");
+initBestSlider();
+renderCatBlocks();
+renderAllPage();
+bindItemClicks($('catPgGrid'));
 
 })();
 </script>
