@@ -77,12 +77,7 @@ body::before{
   color:var(--txt);cursor:pointer;transition:background .15s;
 }
 .btn-login:hover{background:var(--bg3)}
-.btn-start{
-  font-size:13px;font-weight:600;padding:7px 20px;border-radius:99px;
-  border:none;background:var(--gold);color:#1a1208;
-  cursor:pointer;transition:background .15s;
-}
-.btn-start:hover{background:var(--gold2)}
+
 
 /* GNB 카테고리 탭 */
 .gnb-cats{
@@ -104,9 +99,40 @@ body::before{
 
 /* 브레드크럼 */
 .crumb{
-  display:none;align-items:center;gap:8px;
+  display:flex;align-items:center;gap:8px;min-width:0;
   font-size:13px;color:var(--txt2);
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
 }
+
+/* 뒤로가기 줄 */
+.gnb-sub{
+  max-width:1200px;margin:0 auto;padding:8px 24px;
+  display:flex;align-items:center;gap:14px;
+  border-top:1px solid var(--line);
+}
+.gnb-sub[hidden]{display:none}
+.btn-back{
+  flex-shrink:0;font-size:13px;font-weight:600;font-family:var(--sans);
+  color:var(--gold);background:transparent;border:1px solid var(--line2);
+  border-radius:99px;padding:5px 14px;cursor:pointer;transition:background .15s;
+}
+.btn-back:hover{background:rgba(201,151,58,.12)}
+
+/* 전체 항목 패널 */
+.all-panel{
+  display:none;position:absolute;left:0;right:0;top:100%;
+  background:var(--bg1);border-bottom:1px solid var(--line2);
+  box-shadow:0 18px 40px rgba(0,0,0,.6);
+  max-height:calc(100vh - 120px);overflow-y:auto;
+}
+.all-panel.open{display:block}
+.all-panel-in{max-width:1200px;margin:0 auto;padding:22px 24px 30px}
+.all-panel-sub{font-size:13px;color:var(--txt2);margin-bottom:18px}
+.all-backdrop{
+  display:none;position:fixed;inset:0;z-index:150;
+  background:rgba(0,0,0,.55);
+}
+.all-backdrop.open{display:block}
 .crumb-home{color:var(--gold);cursor:pointer;font-weight:600}
 .crumb-sep{color:var(--txt3)}
 .crumb-cat{color:var(--txt);font-weight:600}
@@ -577,14 +603,8 @@ footer{
       <div class="logo-seal">命</div>
       사주삼백
     </a>
-    <div id="crumb" class="crumb" style="display:none">
-      <span class="crumb-home" id="crumbHome">홈</span>
-      <span class="crumb-sep">›</span>
-      <span class="crumb-cat" id="crumbCat"></span>
-    </div>
     <div class="gnb-r">
       <button class="btn-login">로그인</button>
-      <button class="btn-start" id="gnbStartBtn">충전하기</button>
     </div>
   </div>
   <!-- 카테고리 탭 (홈) -->
@@ -596,7 +616,24 @@ footer{
     <button class="gnb-tab" data-cat="결혼궁합">결혼궁합</button>
     <button class="gnb-tab" data-cat="무료">무료</button>
   </div>
+  <!-- 뒤로가기 줄 (전체 탭 밑, 왼쪽) -->
+  <div class="gnb-sub" id="gnbSub" hidden>
+    <button class="btn-back" id="backBtn" aria-label="이전 화면으로">‹ 뒤로</button>
+    <div class="crumb" id="crumb">
+      <span class="crumb-home" id="crumbHome">홈</span>
+      <span class="crumb-sep">›</span>
+      <span class="crumb-cat" id="crumbCat"></span>
+    </div>
+  </div>
+  <!-- 전체 항목 패널 (전체 탭을 누르면 열림) -->
+  <div class="all-panel" id="allPanel" role="dialog" aria-label="전체 항목">
+    <div class="all-panel-in">
+      <p class="all-panel-sub">모든 카테고리의 항목이에요. 항목을 누르면 질문 목록으로 이동해요.</p>
+      <div class="all-grid" id="allGrid"></div>
+    </div>
+  </div>
 </nav>
+<div class="all-backdrop" id="allBackdrop"></div>
 
 <!-- ══════ 홈 화면 ══════ -->
 <div class="screen active" id="screenHome">
@@ -877,19 +914,6 @@ footer{
         <p id="catPgDesc"></p>
       </div>
       <div class="item-grid" id="catPgGrid"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════ 전체 항목 화면 (글로만) ══════ -->
-<div class="screen" id="screenAll">
-  <div class="cat-pg">
-    <div class="cat-pg-in">
-      <div class="cat-pg-head">
-        <h2>전체 항목</h2>
-        <p>모든 카테고리의 항목을 글로 모아 봤어요. 항목을 누르면 질문 목록으로 이동해요.</p>
-      </div>
-      <div class="all-grid" id="allGrid"></div>
     </div>
   </div>
 </div>
@@ -1741,9 +1765,9 @@ function renderBest(){
 /* ── 카테고리 설명 ── */
 const CAT_DESC={
   "나라는 사람":"나에 대해 먼저 알아보세요. 지피지기 백전백승!",
-  "재물":"재물 그릇, 커리어, 이직, 시험, 창업의 흐름",
-  "연애궁합":"지금 이 사람부터 새 인연, 재회, 연애 패턴, 궁합까지",
-  "결혼궁합":"결혼, 자녀, 가족 관계, 이사, 인복과 귀인"
+  "재물":"돈이 들어오는 때를 먼저 알아보세요. 유비무환, 준비하면 걱정이 없습니다!",
+  "연애궁합":"그 사람의 마음을 먼저 알아보세요. 천생연분은 알아보는 사람에게 옵니다!",
+  "결혼궁합":"평생 함께할 인연을 먼저 알아보세요. 백년해로의 첫걸음입니다!"
 };
 
 /* ── 항목 카드 HTML ── */
@@ -1836,7 +1860,7 @@ function initBestSlider(){
 
 /* ── 화면 전환 ── */
 /* 화면 하나만 보이게 하는 공통 함수 */
-const SCREENS=['screenHome','screenQ','screenFree','screenCat','screenAll'];
+const SCREENS=['screenHome','screenQ','screenFree','screenCat'];
 function showScreen(id){
   SCREENS.forEach(s=>$(s).classList.toggle('active',s===id));
 }
@@ -1844,49 +1868,95 @@ function setTab(cat){
   document.querySelectorAll('.gnb-tab').forEach(x=>x.classList.toggle('active',x.dataset.cat===cat));
 }
 
-function goHome(){
-  showScreen('screenHome');
-  $('crumb').style.display='none';
-  $('logoBtn').style.display='';
-  $('gnbCats').style.display='';
-  setTab(null);
-  window.scrollTo({top:0,behavior:'smooth'});
+/*
+  화면 기록: 브라우저 history에 "어떤 화면인지 + 스크롤 위치"를 저장합니다.
+  ‹ 뒤로 버튼과 브라우저의 뒤로가기 버튼 모두 같은 기록을 사용해요.
+  화면 종류(v): home / cat(카테고리) / q(질문 목록) / free(무료)
+*/
+if('scrollRestoration' in history) history.scrollRestoration='manual';
+
+function tabOf(st){
+  if(!st||st.v==='home') return null;
+  if(st.v==='free') return '무료';
+  return st.cat;
+}
+
+/* 상태 하나를 화면에 그립니다 (기록은 건드리지 않음) */
+function render(st){
+  closeAll();
+  let crumb='';
+  if(st.v==='cat'){
+    curCat=st.cat;
+    renderCatPage(st.cat);
+    showScreen('screenCat');
+    crumb=st.cat;
+  }else if(st.v==='q'){
+    const d=DATA.find(x=>x.cat===st.cat);
+    const it=d&&d.items.find(i=>i.id===st.item);
+    if(!it){ return render({v:'home',depth:st.depth}); }
+    curItem=it;
+    renderQPage(st.cat,it);
+    showScreen('screenQ');
+    crumb=`${st.cat} · ${it.name}`;
+  }else if(st.v==='free'){
+    showScreen('screenFree');
+    crumb='무료 운세';
+  }else{
+    showScreen('screenHome');
+  }
+  setTab(tabOf(st));
+  $('crumbCat').textContent=crumb;
+  $('crumb').style.display=crumb?'flex':'none';
+  $('gnbSub').hidden=!(st.depth>0);
   updateCart();
 }
 
-/* 카테고리 화면: 지연 없이 항목이 바로 표시됨 */
-function goCat(cat){
-  curCat=cat;
-  renderCatPage(cat);
-  showScreen('screenCat');
-  $('crumb').style.display='none';
-  $('logoBtn').style.display='';
-  $('gnbCats').style.display='';
-  setTab(cat);
-  window.scrollTo({top:0,behavior:'auto'});
-  updateCart();
+function sameView(a,b){
+  return a&&b&&a.v===b.v&&(a.cat||'')===(b.cat||'')&&(a.item||'')===(b.item||'');
 }
 
-/* 전체 화면: 모든 항목을 글로만 */
-function goAll(){
-  showScreen('screenAll');
-  $('crumb').style.display='none';
-  $('logoBtn').style.display='';
-  $('gnbCats').style.display='';
+/* 새 화면으로 이동: 지금 화면의 스크롤 위치를 저장한 뒤 기록을 하나 쌓습니다 */
+function navigate(st){
+  closeAll();
+  const cur=history.state||{v:'home',depth:0,y:0};
+  if(sameView(cur,st)){ window.scrollTo({top:0,behavior:'smooth'}); return; }
+  history.replaceState(Object.assign({},cur,{y:window.scrollY}),'');
+  const next=Object.assign({},st,{depth:(cur.depth||0)+1,y:0});
+  history.pushState(next,'');
+  render(next);
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+/* 뒤로가기: 저장해 둔 화면과 스크롤 위치를 그대로 되살립니다 */
+window.addEventListener('popstate',e=>{
+  const st=e.state||{v:'home',depth:0,y:0};
+  render(st);
+  restoreScroll(st.y||0);
+});
+
+/* 화면을 그린 직후 바로 스크롤하고, 다음 그리기 때 한 번 더 맞춰 줍니다 */
+function restoreScroll(y){
+  window.scrollTo({top:y,behavior:'instant'});
+  requestAnimationFrame(()=>{ if(Math.abs(window.scrollY-y)>2) window.scrollTo({top:y,behavior:'instant'}); });
+}
+
+function goHome(){ navigate({v:'home'}); }
+function goCat(cat){ navigate({v:'cat',cat}); }
+function goQ(cat,item){ navigate({v:'q',cat,item:item.id}); }
+function goFree(){ navigate({v:'free'}); }
+
+/* ── 전체 항목 패널 열기/닫기 ── */
+function isAllOpen(){ return $('allPanel').classList.contains('open'); }
+function openAll(){
+  $('allPanel').classList.add('open');
+  $('allBackdrop').classList.add('open');
   setTab('전체');
-  window.scrollTo({top:0,behavior:'auto'});
-  updateCart();
 }
-
-function goQ(cat, item){
-  curItem=item;
-  showScreen('screenQ');
-  $('logoBtn').style.display='none';
-  $('crumb').style.display='flex';
-  $('crumbCat').textContent=`${cat} · ${item.name}`;
-  $('gnbCats').style.display='none';
-  window.scrollTo({top:0,behavior:'auto'});
-  renderQPage(cat, item);
+function closeAll(){
+  if(!isAllOpen()) return;
+  $('allPanel').classList.remove('open');
+  $('allBackdrop').classList.remove('open');
+  setTab(tabOf(history.state));
 }
 
 /* ── 질문 페이지 렌더 ── */
@@ -1956,10 +2026,23 @@ $('cClr').addEventListener('click',()=>{
 document.querySelectorAll('.gnb-tab').forEach(b=>{
   b.addEventListener('click',()=>{
     const cat=b.dataset.cat;
+    if(cat==='전체'){ isAllOpen()?closeAll():openAll(); return; } /* 다시 누르면 닫힘 */
     if(cat==='무료') goFree();
-    else if(cat==='전체') goAll();
     else goCat(cat);
   });
+});
+
+/* 패널 밖(사주삼백 옆 빈 공간, 무료 탭, 어두운 배경 등)을 누르면 닫힘 */
+document.addEventListener('click',e=>{
+  if(!isAllOpen()) return;
+  if(e.target.closest('#allPanel')||e.target.closest('.gnb-tab[data-cat="전체"]')) return;
+  closeAll();
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeAll(); });
+
+/* ‹ 뒤로 버튼 */
+$('backBtn').addEventListener('click',()=>{
+  if(history.state&&history.state.depth>0) history.back();
 });
 
 /* 전체(글로만) 화면의 항목 클릭 */
@@ -1982,19 +2065,7 @@ $('bestGrid').addEventListener('click',e=>{
 $('logoBtn').addEventListener('click',goHome);
 $('crumbHome').addEventListener('click',goHome);
 $('heroBtn').addEventListener('click',()=>$('catSec').scrollIntoView({behavior:'smooth'}));
-$('gnbStartBtn').addEventListener('click',()=>showCharge());
 $('freeBtn').addEventListener('click',goFree);
-
-/* ── 무료 운세 화면 ── */
-function goFree(){
-  showScreen('screenFree');
-  $('logoBtn').style.display='none';
-  $('crumb').style.display='flex';
-  $('crumbCat').textContent='무료 운세';
-  $('gnbCats').style.display='none';
-  document.querySelectorAll('.gnb-tab').forEach(x=>x.classList.toggle('active',x.dataset.cat==='무료'));
-  window.scrollTo({top:0,behavior:'auto'});
-}
 
 /* 무료 카드 클릭 */
 const FREE_TITLES={
@@ -2117,10 +2188,7 @@ function renderFreeResult(birth,gender,type){
   }
 }
 
-/* ── 충전하기 팝업 ── */
-function showCharge(){
-  alert('충전하기 기능은 준비 중입니다.\n포인트 충전 후 질문을 이용할 수 있어요.');
-}
+
 
 /* ── 스크롤 업 버튼 ── */
 const scrollUpBtn=$('scrollUpBtn');
@@ -2136,6 +2204,12 @@ initBestSlider();
 renderCatBlocks();
 renderAllPage();
 bindItemClicks($('catPgGrid'));
+
+/* 첫 화면 기록 (새로고침해도 보던 화면 유지) */
+const initState=(history.state&&history.state.v)?history.state:{v:'home',depth:0,y:0};
+history.replaceState(initState,'');
+render(initState);
+if(initState.y) restoreScroll(initState.y);
 
 })();
 </script>
