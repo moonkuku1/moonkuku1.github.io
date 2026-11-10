@@ -37,6 +37,12 @@ body{
   line-height:1.7;
   -webkit-font-smoothing:antialiased;
   min-height:100vh;
+  word-break:keep-all; /* 한글을 단어 단위로 줄바꿈 */
+}
+@media(max-width:560px){
+  .gnb-tab{padding:10px 12px;font-size:13px}
+  .sec{padding:44px 0}
+  .sec-in,.gnb-top,.gnb-cats,.gnb-sub{padding-left:20px;padding-right:20px}
 }
 /* 한지 질감 오버레이 */
 body::before{
@@ -197,6 +203,13 @@ body::before{
   color:var(--gold2);display:block;
 }
 .hstat-l{font-size:12px;color:var(--txt3);margin-top:2px;letter-spacing:.06em}
+@media(max-width:560px){
+  .hero{padding:56px 20px 48px}
+  .hero-stats{margin-top:36px;padding-top:24px}
+  .hstat{padding:0 4px}
+  .hstat-n{font-size:18px;white-space:nowrap}
+  .hstat-l{font-size:10.5px;letter-spacing:0;white-space:nowrap}
+}
 
 /* ══ 섹션 공통 ══ */
 .sec{padding:56px 0}
@@ -318,8 +331,27 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:0}
 }
 
 @media(max-width:1100px){.item-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:700px){.item-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:400px){.item-grid{grid-template-columns:1fr}}
+@media(max-width:700px){
+  .item-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .item-img{height:120px}
+  .item-body{padding:12px 12px 14px}
+  .item-name{font-size:15px}
+  .item-desc{font-size:11.5px}
+}
+
+/* 홈 카테고리 항목: 옆으로 넘기는 슬라이드 */
+.cat-block .item-grid{
+  display:flex;gap:16px;overflow-x:auto;
+  scroll-snap-type:x mandatory;scrollbar-width:none;
+  padding-bottom:4px;
+}
+.cat-block .item-grid::-webkit-scrollbar{display:none}
+.cat-block .item-card{flex:0 0 calc((100% - 64px) / 5);scroll-snap-align:start}
+@media(max-width:1100px){.cat-block .item-card{flex-basis:calc((100% - 32px) / 3.2)}}
+@media(max-width:700px){
+  .cat-block .item-grid{gap:12px;margin-right:-20px;padding-right:20px}
+  .cat-block .item-card{flex-basis:62%}
+}
 
 /* ══ BEST 10 카드 ══ */
 .best-track{
@@ -364,7 +396,20 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:0}
 .rev-stars{color:var(--gold);font-size:13px;margin-bottom:8px;letter-spacing:3px}
 .rev-txt{font-size:13px;line-height:1.75;color:var(--txt2);margin-bottom:12px}
 .rev-meta{font-size:11px;color:var(--txt3)}
-@media(max-width:760px){.rev-grid{grid-template-columns:1fr}.rev-card:nth-child(n+3){display:none}}
+/* 약속 카드 */
+.prom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:760px){
+  .prom-grid{grid-template-columns:1fr;gap:10px}
+  .prom-grid > div{padding:18px 18px !important}
+  .prom-grid > div > div:first-child{font-size:20px !important;margin-bottom:4px !important}
+}
+@media(max-width:760px){
+  .rev-grid{grid-template-columns:repeat(3,1fr);gap:8px}
+  .rev-card{padding:14px 11px}
+  .rev-stars{font-size:10px;letter-spacing:1px;margin-bottom:6px}
+  .rev-txt{font-size:12px;line-height:1.6;margin-bottom:8px}
+  .rev-meta{font-size:10px}
+}
 
 /* ══ 푸터 ══ */
 footer{
@@ -732,9 +777,9 @@ footer{
     <h2 class="sec-h">먼저 본 분들의 이야기</h2>
     <p class="sec-sub">실제로 풀이를 받은 분들이 남긴 후기만 보여드려요.</p>
     <div class="rev-grid">
-      <div class="rev-card"><div class="rev-stars">★★★★★</div><p class="rev-txt">"결론을 첫 문장에 바로 알려주는 게 진짜 좋아요. 시기도 월 단위로 딱 집어줘서 실용적이에요."</p><div class="rev-meta">93년생 여성 · 연애</div></div>
-      <div class="rev-card"><div class="rev-stars">★★★★★</div><p class="rev-txt">"300원이라 부담 없이 시작했는데 내용이 정말 자세했어요. 나쁜 것도 솔직하게 알려줘서 오히려 더 믿음이 갔어요."</p><div class="rev-meta">86년생 남성 · 이직</div></div>
-      <div class="rev-card"><div class="rev-stars">★★★★☆</div><p class="rev-txt">"명식표를 같이 보여줘서 왜 이런 결론이 나왔는지 이해됐어요. 그냥 운세 보는 것보다 납득이 되니까 더 좋더라고요."</p><div class="rev-meta">98년생 · 궁합</div></div>
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><p class="rev-txt">"결론부터 말해 주고 시기도 딱 짚어 줘요."</p><div class="rev-meta">93년생 여성 · 연애</div></div>
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><p class="rev-txt">"300원인데 자세하고 솔직해서 믿음 가요."</p><div class="rev-meta">86년생 남성 · 이직</div></div>
+      <div class="rev-card"><div class="rev-stars">★★★★☆</div><p class="rev-txt">"근거까지 보여 줘서 납득이 돼요."</p><div class="rev-meta">98년생 · 궁합</div></div>
     </div>
   </div>
 </section>
@@ -759,7 +804,7 @@ footer{
     <div class="sec-ey">사주삼백의 약속</div>
     <h2 class="sec-h">세 가지를 지킵니다</h2>
     <p class="sec-sub" style="margin-bottom:28px">흔들리지 않는 원칙으로 답합니다.</p>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <div class="prom-grid">
       <div style="background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:26px 22px">
         <div style="font-family:var(--serif);font-size:28px;color:var(--gold);opacity:.3;margin-bottom:10px">01</div>
         <div style="font-size:16px;font-weight:700;color:var(--txt);margin-bottom:6px">결론을 첫 문장에</div>
