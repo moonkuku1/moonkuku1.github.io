@@ -636,6 +636,156 @@ footer{
   .cart-acts{justify-content:stretch}
   .btn-pay{flex:1;text-align:center}
 }
+
+/* ══ 공통 도우미 ══ */
+.m-only{display:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.el-mok{color:#8fd17a}.el-hwa{color:#ff8f78}.el-to{color:#f0c463}.el-geum{color:#d3dae4}.el-su{color:#86aef2}
+.bg-mok{background:#6fb85a}.bg-hwa{background:#e0644e}.bg-to{background:#d9a83a}.bg-geum{background:#a9b3c0}.bg-su{background:#5c86d6}
+
+/* ══ 나라는 사람 · 무료 체험판 ══ */
+#trialSec{scroll-margin-top:120px}
+.trial{
+  margin:34px auto 0;max-width:640px;text-align:left;
+  background:linear-gradient(180deg,rgba(40,28,10,.94),rgba(24,17,8,.94));
+  border:1px solid var(--line2);border-radius:16px;padding:28px 26px 24px;
+  box-shadow:0 18px 50px rgba(0,0,0,.45);
+}
+.trial + .hero-btns{margin-top:30px}
+.trial-badge{
+  display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;
+  color:#1a1208;background:var(--gold);padding:4px 11px;border-radius:99px;margin-bottom:12px;
+}
+.trial-h{font-family:var(--serif);font-size:26px;font-weight:900;color:var(--txt);margin-bottom:6px;line-height:1.3}
+.trial-sub{font-size:15px;color:var(--txt2);line-height:1.7;margin-bottom:22px}
+.trial-form{display:grid;gap:14px}
+.trial-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.trial-field{display:block;min-width:0}
+.trial-field > span{display:block;font-size:13px;color:var(--txt2);margin-bottom:6px}
+.trial-field input,.trial-field select{
+  width:100%;background:var(--bg3);border:1px solid var(--line);border-radius:10px;
+  padding:12px 13px;font-size:16px;color:var(--txt);font-family:var(--sans);color-scheme:dark;
+}
+.trial-field input::placeholder{color:var(--txt3)}
+.trial-field input:focus,.trial-field select:focus{outline:none;border-color:var(--gold)}
+.trial-field select option{background:var(--bg2)}
+.trial-seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.trial-seg label{flex:1;text-align:center;padding:12px 6px;font-size:15px;color:var(--txt2);cursor:pointer;position:relative}
+.trial-seg label + label{border-left:1px solid var(--line)}
+.trial-seg input{position:absolute;opacity:0;width:0;height:0}
+.trial-seg label:has(input:checked){background:var(--gold);color:#1a1208;font-weight:700}
+.trial-seg label:has(input:focus-visible){outline:2px solid var(--gold3);outline-offset:-3px}
+.trial-err{min-height:1.2em;font-size:13.5px;color:#ff9a88;margin:0}
+.trial-go{
+  width:100%;font-family:var(--sans);font-size:16px;font-weight:700;color:#1a1208;
+  background:var(--gold);border:none;border-radius:12px;padding:15px;cursor:pointer;
+  box-shadow:0 4px 18px rgba(201,151,58,.3);transition:background .15s;
+}
+.trial-go:hover{background:var(--gold2)}
+.trial-go:focus-visible,.tr-cta:focus-visible,.tr-more:focus-visible{outline:2px solid var(--gold3);outline-offset:3px}
+.trial-note{font-size:12.5px;color:var(--txt3);text-align:center;line-height:1.6}
+
+/* 체험판 결과 */
+.trial-result{margin-top:26px;padding-top:24px;border-top:1px dashed var(--line2);scroll-margin-top:120px}
+.trial-result[hidden]{display:none}
+.tr-head{display:flex;gap:12px;align-items:center;margin-bottom:18px}
+.tr-seal{
+  flex-shrink:0;width:44px;height:44px;border:2px solid var(--red);color:#ff7a68;border-radius:8px;
+  display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:22px;transform:rotate(-4deg);
+}
+.tr-name{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--txt);line-height:1.35}
+.tr-meta{font-size:13px;color:var(--txt3);margin-top:2px}
+.tr-pillars{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line2);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.tr-pil{text-align:center;padding:12px 4px 10px;border-left:1px solid var(--line)}
+.tr-pil:first-child{border-left:0}
+.tr-pil.day{background:rgba(201,151,58,.1)}
+.tr-cap{font-size:11.5px;color:var(--txt3);margin-bottom:6px}
+.tr-pil.day .tr-cap{color:var(--gold)}
+.tr-hj{display:block;font-family:var(--serif);font-weight:900;font-size:30px;line-height:1.15}
+.tr-hg{display:block;font-size:12px;color:var(--txt2);margin:2px 0 6px}
+.tr-hg:last-child{margin-bottom:0}
+.tr-unknown{color:var(--txt3)}
+.tr-concl{background:rgba(201,151,58,.1);border-left:3px solid var(--gold);border-radius:8px;padding:14px 16px;margin-bottom:20px}
+.tr-concl b{display:block;font-size:12px;color:var(--gold);letter-spacing:.08em;margin-bottom:4px}
+.tr-concl p{font-size:16px;color:var(--txt);line-height:1.7;font-weight:600}
+.tr-sec{margin-bottom:20px}
+.tr-sec h3{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--txt);margin-bottom:8px}
+.tr-sec p{font-size:15px;color:var(--txt2);line-height:1.8;margin-bottom:6px}
+.tr-sec p strong{color:var(--txt)}
+.tr-bars{display:grid;gap:8px}
+.tr-bar{display:grid;grid-template-columns:62px 1fr 22px;align-items:center;gap:10px;font-size:14px}
+.tr-bar > i{display:block;height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.tr-bar > i > b{display:block;height:100%;border-radius:99px}
+.tr-bar > em{font-style:normal;color:var(--txt2);text-align:right}
+.tr-tease-head{margin:26px 0 12px;padding-top:22px;border-top:1px solid var(--line)}
+.tr-tease-head h3{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--gold2);line-height:1.4}
+.tr-tease-head p{font-size:14px;color:var(--txt2);line-height:1.7;margin-top:4px}
+.tr-teasers{display:grid;gap:12px}
+.tr-card{background:var(--bg1);border:1px solid var(--line2);border-radius:12px;padding:16px}
+.tr-card-cat{font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.08em;margin-bottom:6px}
+.tr-card-hook{font-size:15px;color:var(--txt);line-height:1.75;margin-bottom:12px}
+.tr-lock{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:6px}
+.tr-lock li{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  font-size:13.5px;color:var(--txt2);padding:9px 11px;background:rgba(255,255,255,.03);
+  border:1px solid var(--line);border-radius:8px;
+}
+.tr-lock .lk-a{filter:blur(4px);color:var(--gold2);user-select:none;white-space:nowrap}
+.tr-cta{
+  width:100%;font-family:var(--sans);font-size:15px;font-weight:700;color:#1a1208;
+  background:var(--gold);border:none;border-radius:10px;padding:13px;cursor:pointer;transition:background .15s;
+}
+.tr-cta:hover{background:var(--gold2)}
+.tr-cta small{font-weight:500;opacity:.75;margin-left:4px}
+.tr-more{
+  display:block;width:100%;margin-top:14px;font-family:var(--sans);font-size:14px;color:var(--gold);
+  background:none;border:1px solid var(--line2);border-radius:10px;padding:12px;cursor:pointer;
+}
+.tr-more:hover{background:rgba(201,151,58,.08)}
+.tr-disc{font-size:12px;color:var(--txt3);line-height:1.7;margin-top:14px}
+
+/* ══ 휴대폰 가독성 정리 ══ */
+@media(max-width:560px){
+  .m-only{display:inline}
+  body{line-height:1.65}
+  /* 히어로 */
+  .hero h1{font-size:31px;line-height:1.3}
+  .hero-sub{font-size:15px;line-height:1.75;margin-bottom:0}
+  .hero-badge{font-size:11.5px}
+  .btn-hero,.btn-hero-o{font-size:15px;padding:13px 22px}
+  /* 체험판 */
+  .trial{margin-top:28px;padding:22px 16px 20px;border-radius:14px}
+  .trial-h{font-size:24px}
+  .trial-sub{font-size:14.5px}
+  .trial-row{grid-template-columns:1fr}
+  .tr-hj{font-size:26px}
+  .tr-concl p{font-size:15.5px}
+  .tr-sec p{font-size:14.5px}
+  /* 섹션 제목·설명 */
+  .sec-ey{font-size:11.5px}
+  .sec-h{font-size:22px;line-height:1.4}
+  .sec-sub{font-size:14.5px;line-height:1.7;margin-bottom:22px}
+  .cat-block{margin-bottom:40px}
+  .cat-block-head{align-items:flex-start;margin-bottom:14px}
+  .cat-block-title{font-size:20px}
+  .cat-block-sub{font-size:13.5px;line-height:1.6;margin-top:4px}
+  .cat-more{margin-top:2px;padding:6px 12px}
+  /* 카드 */
+  .item-name{font-size:16px}
+  .item-desc{font-size:13px;line-height:1.55}
+  .item-cnt{font-size:11.5px}
+  .best-cat{font-size:11px}
+  .best-title{font-size:15px;line-height:1.45}
+  .rev-txt{font-size:12.5px}
+  .rev-meta{font-size:10.5px}
+  /* 질문·무료·푸터 */
+  .q-title{font-size:15px;line-height:1.55}
+  .q-head-name{font-size:20px}
+  .q-head-desc{font-size:13.5px}
+  .free-card-desc{font-size:13.5px}
+  .foot-copy,.foot-links a{font-size:13px}
+  .foot-notice{font-size:12px}
+}
 </style>
 </head>
 <body>
@@ -736,7 +886,51 @@ footer{
   <div class="hero-inner">
     <div class="hero-badge">✦ 질문 하나 · 300원 · 결론 바로</div>
     <h1>제대로 보는 사주,<br><span>사주삼백</span></h1>
-    <p class="hero-sub">좋은 말만 고르지 않습니다.<br>여덟 글자가 말하는 대로, 언제 무엇을 할지까지 읽습니다.</p>
+    <p class="hero-sub">좋은 말만 고르지 않습니다.<br>여덟 글자가 말하는 대로,<br class="m-only"> 언제 무엇을 할지까지 읽습니다.</p>
+
+    <!-- ══ 나라는 사람 · 무료 체험판 ══ -->
+    <div class="trial" id="trialSec">
+      <div class="trial-badge">무료 체험판</div>
+      <h2 class="trial-h">나라는 사람</h2>
+      <p class="trial-sub">나를 제대로 먼저 분석해야<br class="m-only"> 더 나은 결과를 얻을 수 있습니다.</p>
+      <form class="trial-form" id="trialForm" novalidate>
+        <div class="trial-row">
+          <label class="trial-field"><span>이름 (선택)</span>
+            <input id="tName" type="text" maxlength="12" autocomplete="off" placeholder="홍길동"></label>
+          <label class="trial-field"><span>생년월일 (양력)</span>
+            <input id="tBirth" type="date" min="1930-01-01" max="2012-12-31"></label>
+        </div>
+        <div class="trial-row">
+          <label class="trial-field"><span>태어난 시간</span>
+            <select id="tTime">
+              <option value="-1">모름</option>
+              <option value="0">자시 (23:30~01:29)</option>
+              <option value="1">축시 (01:30~03:29)</option>
+              <option value="2">인시 (03:30~05:29)</option>
+              <option value="3">묘시 (05:30~07:29)</option>
+              <option value="4">진시 (07:30~09:29)</option>
+              <option value="5">사시 (09:30~11:29)</option>
+              <option value="6">오시 (11:30~13:29)</option>
+              <option value="7">미시 (13:30~15:29)</option>
+              <option value="8">신시 (15:30~17:29)</option>
+              <option value="9">유시 (17:30~19:29)</option>
+              <option value="10">술시 (19:30~21:29)</option>
+              <option value="11">해시 (21:30~23:29)</option>
+            </select></label>
+          <div class="trial-field"><span id="tGenderLabel">성별</span>
+            <div class="trial-seg" role="radiogroup" aria-labelledby="tGenderLabel">
+              <label><input type="radio" name="tGender" value="F" checked>여성</label>
+              <label><input type="radio" name="tGender" value="M">남성</label>
+            </div>
+          </div>
+        </div>
+        <p class="trial-err" id="tErr" role="alert"></p>
+        <button class="trial-go" type="submit">무료로 나 분석하기 →</button>
+        <p class="trial-note">로그인·결제 없이 바로 볼 수 있어요. 입력한 정보는 저장하지 않아요.</p>
+      </form>
+      <div class="trial-result" id="trialResult" hidden aria-live="polite"></div>
+    </div>
+
     <div class="hero-btns">
       <button class="btn-hero" id="heroBtn">질문 고르기 →</button>
       <button class="btn-hero-o" id="freeBtn">무료 신살 조회</button>
@@ -1809,7 +2003,7 @@ function renderBest(){
 
 /* ── 카테고리 설명 ── */
 const CAT_DESC={
-  "나라는 사람":"나에 대해 먼저 알아보세요. 지피지기 백전백승!",
+  "나라는 사람":"나를 제대로 먼저 분석해야 더 나은 결과를 얻을 수 있습니다.",
   "재물":"돈이 들어오는 때를 먼저 알아보세요. 유비무환, 준비하면 걱정이 없습니다!",
   "연애궁합":"그 사람의 마음을 먼저 알아보세요. 천생연분은 알아보는 사람에게 옵니다!",
   "결혼궁합":"평생 함께할 인연을 먼저 알아보세요. 백년해로의 첫걸음입니다!"
@@ -1851,7 +2045,8 @@ function bindItemClicks(container){
 
 /* ── 홈: 카테고리별 블록 (각 블록 우측 상단에 전체보기) ── */
 function renderCatBlocks(){
-  $('catBlocks').innerHTML=DATA.map(d=>`
+  /* 나라는 사람은 맨 위 무료 체험판으로 옮겼으므로 홈 카테고리 목록에서는 제외 */
+  $('catBlocks').innerHTML=DATA.filter(d=>d.cat!=='나라는 사람').map(d=>`
     <div class="cat-block" data-cat="${esc(d.cat)}">
       <div class="cat-block-head">
         <div>
@@ -1989,6 +2184,14 @@ function goHome(){ navigate({v:'home'}); }
 function goCat(cat){ navigate({v:'cat',cat}); }
 function goQ(cat,item){ navigate({v:'q',cat,item:item.id}); }
 function goFree(){ navigate({v:'free'}); }
+/* 나라는 사람 탭: 홈 맨 위 체험판으로 */
+function goTrial(){
+  const cur=history.state;
+  const onHome=cur&&cur.v==='home';
+  if(onHome) closeAll(); else navigate({v:'home'});
+  /* 홈에 있을 땐 부드럽게, 다른 화면에서 왔을 땐 바로 체험판 위치로 */
+  $('trialSec').scrollIntoView({behavior:onHome?'smooth':'instant',block:'start'});
+}
 
 /* ── 전체 항목 패널 열기/닫기 ── */
 function isAllOpen(){ return $('allPanel').classList.contains('open'); }
@@ -2073,6 +2276,7 @@ document.querySelectorAll('.gnb-tab').forEach(b=>{
     const cat=b.dataset.cat;
     if(cat==='전체'){ isAllOpen()?closeAll():openAll(); return; } /* 다시 누르면 닫힘 */
     if(cat==='무료') goFree();
+    else if(cat==='나라는 사람') goTrial(); /* 맨 위 무료 체험판으로 이동 */
     else goCat(cat);
   });
 });
@@ -2242,6 +2446,220 @@ window.addEventListener('scroll',()=>{
   else scrollUpBtn.classList.remove('show');
 },{passive:true});
 scrollUpBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ════════════════════════════════════════
+   나라는 사람 · 무료 체험판
+   - 사주 8글자·오행·십성·신강신약은 규칙 코드로 계산 (절기는 근사 날짜)
+   - 문장은 계산 결과로만 조립 → 같은 입력이면 항상 같은 결과
+   - 다른 카테고리는 "계산된 단서 + 잠긴 결론"으로 보여 주고 결제로 연결
+═══════════════════════════════════════ */
+const TS={
+  SH:"甲乙丙丁戊己庚辛壬癸", SK:["갑","을","병","정","무","기","경","신","임","계"],
+  BH:"子丑寅卯辰巳午未申酉戌亥", BK:["자","축","인","묘","진","사","오","미","신","유","술","해"],
+  AN:["쥐","소","호랑이","토끼","용","뱀","말","양","원숭이","닭","개","돼지"],
+  TIME:["자시","축시","인시","묘시","진시","사시","오시","미시","신시","유시","술시","해시"],
+  SE:[0,0,1,1,2,2,3,3,4,4],            /* 천간 오행: 0목 1화 2토 3금 4수 */
+  BE:[4,2,0,0,2,1,1,2,3,3,2,4],        /* 지지 오행 */
+  BM:[9,5,0,1,4,2,3,5,6,7,4,8],        /* 지지 본기(천간 번호) */
+  TERM:[6,4,6,5,6,6,7,8,8,8,8,7],      /* 월별 절입일(근사) */
+  EL:["목(木)","화(火)","토(土)","금(金)","수(水)"], ELC:["mok","hwa","to","geum","su"],
+  SS:[["비견","겁재"],["식신","상관"],["편재","정재"],["편관","정관"],["편인","정인"]],
+  GRP:["비겁","식상","재성","관성","인성"]
+};
+const T_STEM_IMG=[
+  "큰 나무(甲木)처럼 곧고 당당해요. 한번 정한 방향으로 끝까지 뻗어 가는 리더형이에요.",
+  "풀과 덩굴(乙木)처럼 부드럽지만 끈질겨요. 어떤 환경에서도 길을 찾아내는 적응력이 있어요.",
+  "하늘의 태양(丙火)처럼 밝고 솔직해요. 주변 사람에게 에너지를 나눠 주는 타입이에요.",
+  "촛불(丁火)처럼 은은하고 섬세해요. 겉은 차분해도 속정이 깊어요.",
+  "큰 산(戊土)처럼 듬직해요. 쉽게 흔들리지 않고 주변을 품어 주는 그릇이에요.",
+  "논밭(己土)처럼 실속 있어요. 사람과 일을 차분히 길러 내는 힘이 있어요.",
+  "바위와 강철(庚金)처럼 단호해요. 의리가 있고 결단이 빨라요.",
+  "보석(辛金)처럼 예리하고 섬세해요. 보는 눈이 높고 자존심이 강해요.",
+  "큰 강(壬水)처럼 스케일이 커요. 생각이 깊고 자유로운 기질이에요.",
+  "이슬과 빗물(癸水)처럼 조용히 스며들어요. 직관과 감수성이 뛰어나요."
+];
+const T_GRP_INFO=[
+  ["나와 같은 기운","주관이 뚜렷하고 혼자서도 길을 여는 힘이 있어요."],
+  ["내가 표현하는 기운","재능과 말솜씨를 밖으로 펼칠 때 운이 풀려요."],
+  ["내가 다스리는 기운","돈과 현실을 다루는 감각이 좋아 실속을 잘 챙겨요."],
+  ["나를 다듬는 기운","규칙 있는 곳에서 인정받고 책임을 잘 지는 편이에요."],
+  ["나를 돕는 기운","배우고 익히는 힘이 좋아 전문성으로 자리를 잡아요."]
+];
+const T_LACK_TIP=[
+  "초록 식물을 곁에 두고, 산책이나 새로운 시작을 자주 해 보세요.",
+  "몸을 움직이는 운동과 사람 만나는 자리로 에너지를 채워 보세요.",
+  "규칙적인 생활과 식사 시간을 정해 두면 마음이 단단해져요.",
+  "정리정돈과 마무리하는 습관이 부족한 기운을 채워 줘요.",
+  "충분한 휴식과 독서, 명상으로 마음을 가라앉혀 보세요."
+];
+const T_EXCESS=[
+  "목 기운이 많아 추진력이 강하지만 무리하기 쉬워요. 쉬는 시간을 일부러 정해 두세요.",
+  "화 기운이 많아 열정이 크지만 마음이 급해질 수 있어요. 한 박자 쉬고 말해 보세요.",
+  "토 기운이 많아 신중하지만 변화에 느릴 수 있어요. 작은 새 시도를 늘려 보세요.",
+  "금 기운이 많아 판단이 정확하지만 날카로워 보일 수 있어요. 부드러운 말투가 복을 불러요.",
+  "수 기운이 많아 생각이 깊지만 걱정도 많아요. 몸을 움직이고 결론을 내려 보세요."
+];
+
+function tJdn(y,m,d){ return Math.floor(Date.UTC(y,m-1,d)/86400000)+2440588; }
+
+/* 사주 4기둥 계산 (hb: 시지 번호, 모르면 -1) */
+function tPillars(y,m,d,hb){
+  const sy=(m<2||(m===2&&d<4))?y-1:y;                         /* 입춘 기준 연주 */
+  const yS=((sy-4)%10+10)%10, yB=((sy-4)%12+12)%12;
+  const n=((m-2+(d>=TS.TERM[m-1]?0:-1))%12+12)%12;           /* 절입 기준 월주(인월=0) */
+  const mB=(n+2)%12, mS=((yS%5)*2+2+n)%10;
+  const idx=(tJdn(y,m,d)+49)%60;                               /* 일주(60갑자) */
+  const dS=idx%10, dB=idx%12;
+  const hour=hb>=0?{cap:"시주",s:((dS%5)*2+hb)%10,b:hb}:{cap:"시주",s:null,b:null};
+  return [{cap:"연주",s:yS,b:yB},{cap:"월주",s:mS,b:mB},{cap:"일주",s:dS,b:dB,day:true},hour];
+}
+function tGod(dm,o){
+  const g=(TS.SE[o]-TS.SE[dm]+5)%5;
+  return {g,n:TS.SS[g][(dm%2)===(o%2)?0:1]};
+}
+/* 도화: 연지·일지 기준 삼합 그룹의 도화 지지가 사주에 있는지 */
+function tDohwaOf(b){
+  if([2,6,10].includes(b)) return 3;
+  if([8,0,4].includes(b)) return 9;
+  if([5,9,1].includes(b)) return 6;
+  return 0;
+}
+function tAnalyze(P,gender){
+  const dm=P[2].s, counts=[0,0,0,0,0], gods=[];
+  P.forEach(p=>{
+    if(p.s===null) return;
+    counts[TS.SE[p.s]]++; counts[TS.BE[p.b]]++;
+    if(!p.day) gods.push(tGod(dm,p.s));
+    gods.push(tGod(dm,TS.BM[p.b]));
+  });
+  const grp=g=>gods.filter(x=>x.g===g).length;
+  const strong=(grp(0)+grp(4))>=gods.length/2;
+  let top=0; counts.forEach((c,i)=>{ if(c>counts[top]) top=i; });
+  let topGod=0; [0,1,2,3,4].forEach(g=>{ if(grp(g)>grp(topGod)) topGod=g; });
+  const lacking=counts.map((c,i)=>c===0?i:-1).filter(i=>i>=0);
+  const brs=P.filter(p=>p.b!==null).map(p=>p.b);
+  const dohwa=brs.some(b=>b===tDohwaOf(P[0].b)||b===tDohwaOf(P[2].b));
+  const spouseG=gender==="M"?2:3;
+  return {dm,dmEl:TS.SE[dm],counts,grp,strong,top,topGod,lacking,dohwa,spouseG,
+    dayGod:tGod(dm,TS.BM[P[2].b]),total:counts.reduce((a,b)=>a+b,0),hasHour:P[3].s!==null};
+}
+
+function tPillarCell(p){
+  if(p.s===null) return `<div class="tr-pil"><div class="tr-cap">${p.cap}</div>
+    <span class="tr-hj tr-unknown">?</span><span class="tr-hg">시간 모름</span>
+    <span class="tr-hj tr-unknown">?</span><span class="tr-hg">&nbsp;</span></div>`;
+  const se=TS.SE[p.s], be=TS.BE[p.b];
+  return `<div class="tr-pil${p.day?' day':''}"><div class="tr-cap">${p.day?'일주 (나)':p.cap}</div>
+    <span class="tr-hj el-${TS.ELC[se]}">${TS.SH[p.s]}</span><span class="tr-hg">${TS.SK[p.s]} · ${TS.EL[se].slice(0,1)}</span>
+    <span class="tr-hj el-${TS.ELC[be]}">${TS.BH[p.b]}</span><span class="tr-hg">${TS.BK[p.b]} · ${TS.EL[be].slice(0,1)}</span></div>`;
+}
+
+function tLockList(items){
+  return `<ul class="tr-lock">${items.map(([q,a])=>`<li><span>🔒 ${q}</span><span class="lk-a" aria-hidden="true">${a}</span><span class="sr-only">정밀 풀이에서 공개돼요</span></li>`).join('')}</ul>`;
+}
+
+function renderTrial(info){
+  const {name,y,m,d,hb,gender}=info;
+  const P=tPillars(y,m,d,hb), a=tAnalyze(P,gender);
+  /* TS.EL[i] 예: "토(土)" → 한글 "토", 한자 "土" */
+  const dmTxt=`${TS.SK[a.dm]}${TS.EL[a.dmEl].charAt(0)}(${TS.SH[a.dm]}${TS.EL[a.dmEl].charAt(2)})`;
+  const strongWord=a.strong?"신강(내 기운이 단단한)":"신약(주변의 도움으로 크는)";
+
+  /* 한 줄 결론 */
+  const concl=`${dmTxt} 일간의 ${a.strong?'신강':'신약'} 사주예요. `+
+    (a.lacking.length
+      ? `${TS.EL[a.top]} 기운이 가장 강하고, ${a.lacking.map(i=>TS.EL[i]).join('·')} 기운이 비어 있어요.`
+      : `${TS.EL[a.top]} 기운이 가장 강하고, 다섯 기운이 모두 갖춰져 있어요.`);
+
+  /* 오행 막대 */
+  const bars=a.counts.map((c,i)=>`<div class="tr-bar"><span class="el-${TS.ELC[i]}">${TS.EL[i]}</span>
+    <i><b class="bg-${TS.ELC[i]}" style="width:${a.total?c/a.total*100:0}%"></b></i><em>${c}</em></div>`).join('');
+
+  /* 성향 */
+  const [gName,gMean]=T_GRP_INFO[a.topGod];
+  const nature=[
+    `<strong>${dmTxt}</strong> · ${T_STEM_IMG[a.dm]}`,
+    `나를 돕는 기운(비겁·인성)을 따져 보면 <strong>${strongWord}</strong> 사주예요. `+
+      (a.strong?"스스로 계획하고 밀어붙이는 힘이 좋아요. 고집으로 보이지 않게 남의 말을 들어 주는 여유만 챙기면 돼요."
+               :"섬세하고 환경의 영향을 많이 받는 편이라, 믿을 수 있는 사람과 함께할 때 힘이 커져요."),
+    `내 사주에서 가장 많은 기운은 <strong>${TS.GRP[a.topGod]}(${gName})</strong>이에요. ${gMean}`
+  ];
+  if(!a.hasHour) nature.push("태어난 시간을 넣으면 시주까지 더해져 더 정확해져요.");
+
+  /* 채우는 방법 */
+  const need=Math.ceil(a.total/2);
+  const fill=[];
+  if(a.lacking.length) a.lacking.forEach(i=>fill.push(`<strong>${TS.EL[i]}</strong> 보완 · ${T_LACK_TIP[i]}`));
+  else fill.push("다섯 기운이 고르게 있는 편이에요. 지금의 균형을 지키는 생활 습관이 가장 좋은 개운법이에요.");
+  if(a.counts[a.top]>=need) fill.push(T_EXCESS[a.top]);
+
+  /* 다음 이야기 (결제 유도용 단서 + 잠긴 결론) */
+  const jae=a.grp(2);
+  const jaeHook=jae===0
+    ? "재성(재물을 뜻하는 기운)이 겉으로 드러나지 않아요. 이런 사주는 돈이 스스로 오기보다, 따로 열리는 길이 있어요."
+    : jae>=3
+      ? `재성(재물을 뜻하는 기운)이 ${jae}개나 있어요. 돈과 기회가 자주 오가는 사주인데, 그만큼 새는 길도 있어요.`
+      : `재성(재물을 뜻하는 기운)이 ${jae}개 있어요. 재물이 들어오는 길이 분명한 편이에요.`;
+  const sp=a.grp(a.spouseG), spName=a.spouseG===2?"재성":"관성";
+  const loveHook=`배우자를 뜻하는 기운(${spName})이 ${sp===0?'겉으로 드러나지 않아요':sp+'개 있어요'}.`+
+    (a.dohwa?" 사람을 끄는 매력의 기운, 도화살도 있어요.":"")+" 인연이 들어오는 때는 사주에 따로 정해져 있어요.";
+  const db=P[2].b;
+  const wedHook=`배우자 자리(일지)에 ${TS.BK[db]}(${TS.AN[db]}) 기운, '${a.dayGod.n}'이 앉아 있어요. 내 결혼 상대의 성향이 여기서 드러나요.`;
+
+  const teasers=[
+    {cat:"재물",hook:jaeHook,lock:[["큰돈이 들어오는 해","20●●년"],["돈이 새는 진짜 이유","●●●● 때문"],["나에게 맞는 수입 구조","●●형"]]},
+    {cat:"연애궁합",hook:loveHook,lock:[["다음 인연이 오는 달","●월 · ●월"],["나와 잘 맞는 사람","●●●● 유형"],["그 사람의 마음","●●●●●"]]},
+    {cat:"결혼궁합",hook:wedHook,lock:[["결혼 운이 강해지는 해","20●●년"],["미래 배우자의 성격","●●●● 성향"],["결혼 후 생활 흐름","●●●●●"]]}
+  ];
+
+  const timeTxt=hb>=0?TS.TIME[hb]:"시간 모름";
+  $('trialResult').innerHTML=`
+    <div class="tr-head"><div class="tr-seal" aria-hidden="true">命</div>
+      <div><div class="tr-name">${name?esc(name)+'님의':'나의'} 사주 체험판</div>
+      <div class="tr-meta">${y}년 ${m}월 ${d}일 · ${gender==='M'?'남성':'여성'} · ${timeTxt}</div></div></div>
+    <div class="tr-pillars">${[P[3],P[2],P[1],P[0]].map(tPillarCell).join('')}</div>
+    <div class="tr-concl"><b>한 줄 결론</b><p>${concl}</p></div>
+    <div class="tr-sec"><h3>오행 분포</h3><div class="tr-bars">${bars}</div></div>
+    <div class="tr-sec"><h3>타고난 성향</h3>${nature.map(t=>`<p>${t}</p>`).join('')}</div>
+    <div class="tr-sec"><h3>나를 채우는 방법</h3>${fill.map(t=>`<p>${t}</p>`).join('')}</div>
+    <div class="tr-tease-head">
+      <h3>내 사주가 말하는 다음 이야기</h3>
+      <p>체험판에서 찾은 단서예요. 정밀 풀이에서는 '언제, 어떻게'까지 결론부터 알려 드려요.</p>
+    </div>
+    <div class="tr-teasers">${teasers.map(t=>`
+      <div class="tr-card">
+        <div class="tr-card-cat">${t.cat}</div>
+        <p class="tr-card-hook">${t.hook}</p>
+        ${tLockList(t.lock)}
+        <button class="tr-cta" type="button" data-cat="${t.cat}">${t.cat} 결론 보기 →<small>300원부터</small></button>
+      </div>`).join('')}
+    </div>
+    <button class="tr-more" type="button" data-cat="나라는 사람">나에 대해 더 깊이 · 나라는 사람 정밀 풀이 보기</button>
+    <p class="tr-disc">절기를 근사 날짜로 계산한 간이 풀이예요. 참고용 해석이며 의료·법률·투자 판단을 대신하지 않습니다.</p>`;
+  $('trialResult').hidden=false;
+}
+
+$('trialForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const err=$('tErr'); err.textContent='';
+  const birth=$('tBirth').value;
+  if(!birth){ err.textContent='생년월일을 선택해 주세요.'; $('tBirth').focus(); return; }
+  const [y,m,d]=birth.split('-').map(Number);
+  if(!y||y<1930||y>2012){ err.textContent='1930년부터 2012년 사이의 생년월일을 넣어 주세요.'; $('tBirth').focus(); return; }
+  renderTrial({
+    name:$('tName').value.trim(), y,m,d,
+    hb:parseInt($('tTime').value,10),
+    gender:document.querySelector('input[name="tGender"]:checked').value
+  });
+  const smooth=window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
+  $('trialResult').scrollIntoView({behavior:smooth,block:'start'});
+});
+
+/* 결과 안의 버튼 → 해당 카테고리 질문으로 */
+$('trialResult').addEventListener('click',e=>{
+  const b=e.target.closest('[data-cat]');
+  if(b) goCat(b.dataset.cat);
+});
 
 /* ── 초기 렌더 ── */
 renderBest();
