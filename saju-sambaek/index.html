@@ -154,6 +154,22 @@ body::before{
   display:flex;align-items:center;justify-content:center;
   opacity:.14;
 }
+.hero-art[hidden]{display:none}
+/* 메인 배경 사진: 위쪽에 고정, 아래로 갈수록 어두운 배경으로 자연스럽게 이어짐 */
+.hero-photo{
+  position:absolute;left:0;right:0;top:0;height:min(100%,780px);pointer-events:none;
+  background:url("img/hero.jpg") center top/cover no-repeat;
+}
+.hero-photo::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 46% 60% at 50% 34%,rgba(17,13,7,.6),rgba(17,13,7,0) 72%),
+    linear-gradient(180deg,rgba(17,13,7,.25) 0%,rgba(17,13,7,0) 30%,rgba(17,13,7,.5) 72%,var(--bg1) 100%);
+}
+/* 카드 사진 */
+.card-photo{display:block;width:100%;height:100%;object-fit:cover}
+.item-img .card-photo{object-position:center 35%}
+.q-head-icon .card-photo{object-position:center 30%}
 .hero-art svg{width:100%;height:100%;object-fit:cover}
 .hero-inner{position:relative;z-index:1;max-width:680px;margin:0 auto}
 .hero-badge{
@@ -205,6 +221,11 @@ body::before{
 .hstat-l{font-size:12px;color:var(--txt3);margin-top:2px;letter-spacing:.06em}
 @media(max-width:560px){
   .hero{padding:56px 20px 48px}
+  /* 휴대폰: 초승달과 붉은 구름(오른쪽)이 보이게 맞추고, 가운데 어둡게 덮는 효과는 약하게 */
+  .hero-photo{height:460px;background-position:90% top}
+  .hero-photo::after{
+    background:linear-gradient(180deg,rgba(17,13,7,.15) 0%,rgba(17,13,7,.35) 45%,rgba(17,13,7,.75) 80%,var(--bg1) 100%);
+  }
   .hero-stats{margin-top:36px;padding-top:24px}
   .hstat{padding:0 4px}
   .hstat-n{font-size:18px;white-space:nowrap}
@@ -835,7 +856,8 @@ footer{
 
 <!-- 히어로 -->
 <section class="hero">
-  <div class="hero-art" aria-hidden="true">
+  <div class="hero-photo" aria-hidden="true"></div>
+  <div class="hero-art" aria-hidden="true" hidden>
     <svg viewBox="0 0 1440 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="moonG" cx="50%" cy="50%" r="50%">
@@ -1944,6 +1966,19 @@ function makeItemSVG(color, name){
   return svgs[name] || svgs["default"];
 }
 
+/* ── 항목별 일러스트 사진 (img 폴더) — 없는 항목은 기존 그림(SVG) 사용 ── */
+const ITEM_IMG={
+  "지금 이 사람":{f:"current-relationship.jpg",alt:"등불을 사이에 두고 마주 보는 두 사람"},
+  "인생 흐름":{f:"life-trajectory.jpg",alt:"굽이치는 산성길을 따라가는 백마와 나그네"},
+  "신살과 귀인":{f:"stars-and-patrons.jpg",alt:"수호 가면을 어깨에 걸치고 별을 올려다보는 인물"},
+  "궁합":{f:"compatibility.jpg",alt:"금빛 달 아래 서로를 향해 날아드는 두루미 한 쌍"},
+  "재물 그릇":{f:"wealth.jpg",alt:"옛 엽전과 붉은 비단을 담은 청동 그릇"}
+};
+function imgTag(name,loading){
+  const m=ITEM_IMG[name];
+  return `<img class="card-photo" src="img/${m.f}" alt="${esc(m.alt)}" width="800" height="667" loading="${loading||'lazy'}" decoding="async">`;
+}
+
 /* ── BEST 카드 SVG ── */
 function makeBestSVG(item){
   const [c1,c2]=item.grad;
@@ -1992,7 +2027,7 @@ function renderBest(){
     <div class="best-card" data-best-item="${esc(b.item)}" role="button" tabindex="0">
       <div class="best-img">
         <div class="best-num${b.rank<=3?' gold':''}">BEST ${b.rank}</div>
-        ${makeBestSVG(b)}
+        ${ITEM_IMG[b.item]?imgTag(b.item,b.rank<=3?'eager':'lazy'):makeBestSVG(b)}
       </div>
       <div class="best-body">
         <div class="best-cat">${esc(b.cat)} · ${esc(b.item)}</div>
@@ -2013,7 +2048,7 @@ const CAT_DESC={
 function itemCardHTML(it, catName){
   return `
     <div class="item-card" data-item="${esc(it.id)}" role="button" tabindex="0">
-      <div class="item-img">${makeItemSVG(it.color, it.name)}</div>
+      <div class="item-img">${ITEM_IMG[it.name]?imgTag(it.name,'lazy'):makeItemSVG(it.color, it.name)}</div>
       <div class="item-body">
         <div class="item-cat-badge">${esc(catName)}</div>
         <div class="item-name">${esc(it.name)}</div>
@@ -2229,7 +2264,7 @@ function renderQPage(cat, item){
     });
   });
   // 헤더
-  $('qIcon').innerHTML=makeItemSVG(item.color, item.name);
+  $('qIcon').innerHTML=ITEM_IMG[item.name]?imgTag(item.name,'eager'):makeItemSVG(item.color, item.name);
   $('qName').textContent=item.name;
   $('qDesc').textContent=item.desc;
   $('qBadge').textContent=`총 ${item.questions.length}문항`;
