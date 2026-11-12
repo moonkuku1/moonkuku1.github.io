@@ -668,7 +668,11 @@ footer{
 #trialSec{scroll-margin-top:120px}
 .trial{
   margin:34px auto 0;max-width:640px;text-align:left;
-  background:linear-gradient(180deg,rgba(40,28,10,.94),rgba(24,17,8,.94));
+  /* 배경 사진 + 어두운 막(글자 잘 보이게) */
+  background:
+    linear-gradient(180deg,rgba(28,20,8,.80),rgba(16,11,5,.90)),
+    url("img/about-me-bg.jpg") center/cover no-repeat,
+    #1a1208;
   border:1px solid var(--line2);border-radius:16px;padding:28px 26px 24px;
   box-shadow:0 18px 50px rgba(0,0,0,.45);
 }
@@ -1972,7 +1976,19 @@ const ITEM_IMG={
   "인생 흐름":{f:"life-trajectory.jpg",alt:"굽이치는 산성길을 따라가는 백마와 나그네"},
   "신살과 귀인":{f:"stars-and-patrons.jpg",alt:"수호 가면을 어깨에 걸치고 별을 올려다보는 인물"},
   "궁합":{f:"compatibility.jpg",alt:"금빛 달 아래 서로를 향해 날아드는 두루미 한 쌍"},
-  "재물 그릇":{f:"wealth.jpg",alt:"옛 엽전과 붉은 비단을 담은 청동 그릇"}
+  "재물 그릇":{f:"wealth.jpg",alt:"옛 엽전과 붉은 비단을 담은 청동 그릇"},
+  "직업·커리어":{f:"career.jpg",alt:"직업과 커리어 방향을 상징하는 동양풍 일러스트"},
+  "이직·취업":{f:"job-change.jpg",alt:"새 길로 옮겨 가는 이직과 취업을 상징하는 동양풍 일러스트"},
+  "시험·학업":{f:"study.jpg",alt:"책과 붓으로 공부하는 모습을 담은 동양풍 일러스트"},
+  "사업·창업":{f:"business.jpg",alt:"사업과 창업의 시작을 상징하는 동양풍 일러스트"},
+  "새 인연":{f:"new-connection.jpg",alt:"새로운 인연의 만남을 상징하는 동양풍 일러스트"},
+  "재회·이별":{f:"reunion.jpg",alt:"헤어진 인연의 재회를 상징하는 동양풍 일러스트"},
+  "연애 패턴":{f:"relationship-pattern.jpg",alt:"반복되는 연애의 흐름을 상징하는 동양풍 일러스트"},
+  "결혼·배우자":{f:"marriage.jpg",alt:"혼례와 배우자 인연을 상징하는 동양풍 일러스트"},
+  "자녀·육아":{f:"children.jpg",alt:"아이와 함께하는 가족의 정을 담은 동양풍 일러스트"},
+  "가족 관계":{f:"family.jpg",alt:"부모와 형제, 가족의 인연을 담은 동양풍 일러스트"},
+  "이사·집":{f:"home-moving.jpg",alt:"새 집과 이사를 상징하는 동양풍 일러스트"},
+  "인복·귀인":{f:"helpful-people.jpg",alt:"나를 돕는 귀인과 인복을 상징하는 동양풍 일러스트"}
 };
 function imgTag(name,loading){
   const m=ITEM_IMG[name];
